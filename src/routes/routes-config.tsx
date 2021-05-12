@@ -97,6 +97,26 @@ export const routesConfig: RouteConfigDeclaration[] = [
                 ],
             },
             {
+                path: '/user',
+                isDynamic: true,
+                isRedirect: true,
+                component: React.lazy(() =>
+                    import(
+                        /* webpackChunkName: "userlayout" */
+                        '@src/layout/UserLayout'
+                    ),
+                ),
+                routes: [
+                    {
+                        path: '/user/login',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(/* webpackChunkName: "child-one" */ '@src/views/home/ChildOne'),
+                        ),
+                    },
+                ],
+            },
+            {
                 path: '/login',
                 isDynamic: true,
                 isRedirect: true,
