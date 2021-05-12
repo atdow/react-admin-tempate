@@ -1,3 +1,10 @@
+/*
+ * @Author: atdow
+ * @Date: 2021-05-11 15:38:06
+ * @LastEditors: null
+ * @LastEditTime: 2021-05-12 11:21:58
+ * @Description: file content
+ */
 const webpack = require('webpack');
 const path = require('path');
 // const HappyPack = require('happypack');
@@ -22,7 +29,7 @@ const config = {
     },
     module: {
         // 用于配置哪些模块文件的内容不需要进行解析，以提高整体的构建速度
-        noParse: /jquery|lodash/,//|moment
+        // noParse: /jquery|lodash/,//|moment // 这里需要注释掉
         rules: [
             {
                 test: /\.(jsx?|tsx?)$/,

@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 10:41:48
  * @LastEditors: null
- * @LastEditTime: 2021-05-12 10:50:42
+ * @LastEditTime: 2021-05-12 13:58:53
  * @Description: file content
  */
 import styles from './userlayout.module.less';
@@ -44,10 +44,6 @@ export default class Home extends React.Component<HomeProps> {
     render() {
         const routes = renderAllRoutes(this.props.routes);
         return (
-            // <div className={styles.container}>
-            //     99999
-            //     <Switch>{routes}</Switch>
-            // </div>
             <div className={styles.content}>
                 <div className={styles.top}>
                     <div className={styles.header}>
