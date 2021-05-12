@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 10:47:33
  * @LastEditors: null
- * @LastEditTime: 2021-05-12 14:06:36
+ * @LastEditTime: 2021-05-12 17:22:45
  * @Description: file content
  */
 import React from 'react';
@@ -13,20 +13,23 @@ import { RouteComponentProps } from 'react-router';
 import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
 
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
+
+import { login } from '@src/services/api/user/index';
 
 function mapStateToProps(state: RootState) {
     const {
-        login: { count },
+        user: { count },
     } = state;
     return { count };
 }
 
 function mapDispatchToProps(dispatch: RootDispatch) {
-    const { login } = dispatch;
+    const { user } = dispatch;
     return {
-        increment: login.INCREMENT,
-        decrement: login.decrement,
+        increment: user.INCREMENT,
+        decrement: user.decrement,
+        getPerssionList: user.getPerssionList,
     };
 }
 
@@ -65,8 +68,13 @@ const tailLayout = {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Login extends React.Component<LoginProps> {
     static contextType = GlobalContext;
+    formRef: React.RefObject<any>;
     constructor(props, context) {
         super(props, context);
+        this.formRef = React.createRef();
+        this.state = {
+            loading: false,
+        };
     }
 
     handleLinkBtnClick = () => {
@@ -81,12 +89,33 @@ export default class Login extends React.Component<LoginProps> {
         this.props.decrement();
     };
 
+    componentDidMount() {
+        // console.log('this.formRef:', this.formRef);
+        (this.formRef['current'] as any).setFieldsValue({
+            username: 'admin',
+            password: '123456',
+        });
+    }
+
     onFinish = (values: any) => {
-        console.log('Success:', values);
+        this.props.increment();
+        this.props.getPerssionList().then(res => {
+            console.log('res:', res);
+        });
+        console.log('this.props:', this.props);
+        this.setState({ loading: true });
+        login(values)
+            .then(res => {
+                console.log('res:', res.data);
+            })
+            .catch(err => {})
+            .finally(() => {
+                this.setState({ loading: false });
+            });
     };
 
     onFinishFailed = (errorInfo: any) => {
-        // console.log('Failed:', errorInfo);
+        console.log('Failed:', errorInfo);
     };
 
     render() {
@@ -95,6 +124,7 @@ export default class Login extends React.Component<LoginProps> {
             <div className={styles.container}>
                 <div className={styles.content}>
                     <Form
+                        ref={this.formRef}
                         {...layout}
                         name="basic"
                         initialValues={{ remember: true }}
@@ -107,20 +137,19 @@ export default class Login extends React.Component<LoginProps> {
                         >
                             <Input placeholder="admin or visitor" />
                         </Form.Item>
-
                         <Form.Item
                             name="password"
                             rules={[{ required: true, message: '请输入密码!' }]}
                         >
                             <Input.Password placeholder="123456" />
                         </Form.Item>
-
                         <Form.Item {...tailLayout}>
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" loading={this.state.loading}>
                                 登录
                             </Button>
                         </Form.Item>
                     </Form>
+                    <span>{this.props.count}</span>
                 </div>
             </div>
         );

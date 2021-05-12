@@ -1,8 +1,17 @@
+/*
+ * @Author: atdow
+ * @Date: 2021-05-11 18:43:33
+ * @LastEditors: null
+ * @LastEditTime: 2021-05-12 14:29:15
+ * @Description: file content
+ */
 /**
  * 样式
  */
 import 'antd/dist/antd.css';
 import '@styles/index.less';
+
+import '../mock/index';
 
 /**
  * 第三方库
