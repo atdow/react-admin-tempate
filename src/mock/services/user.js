@@ -861,5 +861,76 @@ const userNav = options => {
     return json;
 };
 
+const permission = options => {
+    const menu = [
+        // dashboard
+        {
+            name: 'dashboard',
+            parentId: 0,
+            id: 1,
+            meta: {
+                icon: 'dashboard',
+                title: '仪表盘',
+                show: true,
+            },
+            component: 'SecurityLayout',
+            redirect: '/dashboard/workplace',
+        },
+        {
+            name: 'workplace',
+            parentId: 1,
+            id: 7,
+            meta: {
+                title: '工作台',
+                show: true,
+            },
+            component: 'Workplace',
+        },
+        {
+            name: 'monitor',
+            path: 'https://www.baidu.com/',
+            parentId: 1,
+            id: 3,
+            meta: {
+                title: '监控页（外部）',
+                target: '_blank',
+                show: true,
+            },
+            component: 'monitor',
+        },
+        {
+            name: 'Analysis',
+            parentId: 1,
+            id: 2,
+            meta: {
+                title: '分析页',
+                show: true,
+            },
+            component: 'Analysis',
+            path: '/dashboard/analysis',
+        },
+        {
+            name: 'tests',
+            parentId: 1,
+            id: 8,
+            meta: {
+                title: '测试功能',
+                show: true,
+            },
+            component: 'Tests',
+        },
+    ];
+    const permission = {
+        Analysis: true,
+    };
+    const result = {
+        menu,
+        permission,
+    };
+    const json = builder(result);
+    return json;
+};
+
 Mock.mock(/\/api\/user\/info/, 'get', info);
 Mock.mock(/\/api\/user\/nav/, 'get', userNav);
+Mock.mock(/\/pt\/perssionlist/, 'get', permission);

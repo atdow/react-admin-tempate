@@ -117,6 +117,28 @@ export const routesConfig: RouteConfigDeclaration[] = [
                 ],
             },
             {
+                path: '/dashboard',
+                isDynamic: true,
+                isRedirect: true,
+                component: React.lazy(() =>
+                    import(
+                        /* webpackChunkName: "dashboard" */
+                        '@src/layout/SecurityLayout'
+                    ),
+                ),
+                routes: [
+                    {
+                        path: '/dashboard/analysis',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(
+                                /* webpackChunkName: "analysis" */ '@src/views/dashboard/Analysis'
+                            ),
+                        ),
+                    },
+                ],
+            },
+            {
                 path: '/login',
                 isDynamic: true,
                 isRedirect: true,

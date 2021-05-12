@@ -2,36 +2,52 @@
  * @Author: atdow
  * @Date: 2021-05-12 16:15:46
  * @LastEditors: null
- * @LastEditTime: 2021-05-12 17:17:41
+ * @LastEditTime: 2021-05-12 18:41:29
  * @Description: file content
  */
 // 添加状态
 import { RootDispatch } from '@src/store';
 
-export interface LoginStateDeclaration {
+export interface UserStateDeclaration {
     pageName?: string;
     count: number;
+    menu: Array<any>;
+    permission: Record<string, any>;
 }
 
-const state: LoginStateDeclaration = {
+const state: UserStateDeclaration = {
     pageName: 'user',
     count: 0,
+    menu: [],
+    permission: {},
 };
+
+import { queryPerssionList } from '@src/services/api/user/index';
 
 export default {
     name: 'user',
     state,
     reducers: {
         // 两种写法：一种用常量作为 key ，一种直接定义方法，个人认为第二种使用更舒服
-        INCREMENT: (state: LoginStateDeclaration, payload?: any): LoginStateDeclaration => {
+        INCREMENT: (state: UserStateDeclaration, payload?: any): UserStateDeclaration => {
             // 打印输出的是一个 proxy 代理实例对象
             // console.log(state);
             state.count += 99;
             // 最终要返回整棵 state 树（当前 model 的 state 树——login）
             return state;
         },
-        decrement: (state: LoginStateDeclaration, payload?: any): LoginStateDeclaration => {
+        decrement: (state: UserStateDeclaration, payload?: any): UserStateDeclaration => {
             state.count -= 1;
+            return state;
+        },
+        SETMENU: (state: UserStateDeclaration, payload?: any): UserStateDeclaration => {
+            console.log('menu:', payload);
+            state.menu = payload;
+            return state;
+        },
+        SETPERMISSION: (state: UserStateDeclaration, payload?: any): UserStateDeclaration => {
+            console.log('permission:', payload);
+            state.permission = payload;
             return state;
         },
     },
@@ -44,7 +60,13 @@ export default {
             );
         },
         getPerssionList() {
-            console.log('gerPerssionList');
+            queryPerssionList().then(res => {
+                const data = res.data.data || {};
+                const { menu = [], permission = {} } = data;
+                this.SETMENU(menu);
+                this.SETPERMISSION(permission);
+                // console.log('data:', data);
+            });
         },
     }),
 };
