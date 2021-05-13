@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-13 17:38:47
+ * @LastEditTime: 2021-05-13 18:16:14
  * @Description: file content
  */
 import React from 'react';
@@ -83,9 +83,24 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
     componentWillReceiveProps(nextProps) {
         const { menu = [] } = nextProps;
         console.log('menu:', menu);
-        let formatMenu = this.renderMenu(menu);
+        let formatMenu = [];
+        menu.forEach(menuItem => {
+            let chidrenMenu = [];
+            if (menuItem.parentId === 0) {
+                console.log('父级');
+                chidrenMenu = menu.filter(item => {
+                    return item.parentId == menuItem.id;
+                });
+                console.log('chidrenMenu：', chidrenMenu);
+                formatMenu.push({
+                    ...menuItem,
+                    chidren: chidrenMenu,
+                });
+            }
+        });
         console.log('formatMenu:', formatMenu);
-        this.setState({ formatMenu });
+        // let formatMenu = this.renderMenu(menu);
+        // this.setState({ formatMenu });
     }
 
     toggleCollapsed = () => {
@@ -107,6 +122,11 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         });
         return formatMenu;
     }
+    resourceManagementChildren(parentId) {
+        return this.props.menu.filter(menuItem => {
+            menuItem.id == parentId;
+        });
+    }
 
     render() {
         return (
@@ -126,14 +146,53 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                         )}
                     </Button>
                     <Menu
+                        defaultSelectedKeys={['foundationplatform']}
+                        mode="inline"
+                        theme="dark"
+                        inlineCollapsed={this.state.collapsed}
+                    >
+                        {/* {this.state.formatMenu.map(curr => {
+                            if (curr.parentId !== 0) {
+                                return (
+                                    <SubMenu
+                                        key={curr.path}
+                                        title={
+                                            <span>
+                                                <span>{curr.name}</span>
+                                            </span>
+                                        }
+                                    >
+                                        {this.resourceManagementChildren(curr.id).map(item => {
+                                            if (
+                                                curr.list === 'ResourceAdministration' &&
+                                                item.isresourceManagementChildren
+                                            ) {
+                                                return (
+                                                    <Menu.Item key={item.path}>
+                                                        {item.title}
+                                                    </Menu.Item>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </SubMenu>
+                                );
+                            }
+                            return (
+                                <Menu.Item key={curr.path}>
+                                    <span>{curr.name}</span>
+                                </Menu.Item>
+                            );
+                        })} */}
+                    </Menu>
+                    {/* <Menu
                         defaultSelectedKeys={['1']}
                         defaultOpenKeys={['sub1']}
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={this.state.collapsed}
                     >
-                        {this.formatMenu}
-                        {/* <Menu.Item key="1" icon={<PieChartOutlined />}>
+                        <Menu.Item key="1" icon={<PieChartOutlined />}>
                             Option 1
                         </Menu.Item>
                         <Menu.Item key="2" icon={<DesktopOutlined />}>
@@ -155,8 +214,8 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                                 <Menu.Item key="11">Option 11</Menu.Item>
                                 <Menu.Item key="12">Option 12</Menu.Item>
                             </SubMenu>
-                        </SubMenu> */}
-                    </Menu>
+                        </SubMenu>
+                    </Menu> */}
                 </div>
             </div>
         );
