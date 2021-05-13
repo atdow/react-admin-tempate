@@ -1,3 +1,10 @@
+/*
+ * @Author: atdow
+ * @Date: 2021-05-11 18:43:33
+ * @LastEditors: null
+ * @LastEditTime: 2021-05-13 15:38:54
+ * @Description: file content
+ */
 /**
  * @author：atdow
  * @description：路由转换器
@@ -7,6 +14,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { RouteConfigDeclaration } from '@routes/routes-config';
+import PageLoading from '@src/components/page-loading/PageLoading';
 
 /**
  default: "模块内容"
@@ -69,9 +77,11 @@ export function renderRoutes(routesConfig: RouteConfigDeclaration[], extraProps:
                     }
                     if (isDynamic) {
                         return (
-                            <React.Suspense fallback={loadingFallback || '正在加载中...'}>
-                                <Component {...props} {...extraProps} routes={routes} />
-                            </React.Suspense>
+                            <>
+                                <React.Suspense fallback={loadingFallback || <PageLoading />}>
+                                    <Component {...props} {...extraProps} routes={routes} />
+                                </React.Suspense>
+                            </>
                         );
                     }
                     return <Component {...props} {...extraProps} routes={routes} />;

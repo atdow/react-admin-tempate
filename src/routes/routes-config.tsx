@@ -136,6 +136,15 @@ export const routesConfig: RouteConfigDeclaration[] = [
                             ),
                         ),
                     },
+                    {
+                        path: '/dashboard/workplace',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(
+                                /* webpackChunkName: "workplace" */ '@src/views/dashboard/Workplace'
+                            ),
+                        ),
+                    },
                 ],
             },
             {

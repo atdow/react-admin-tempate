@@ -2,15 +2,20 @@
  * @Author: atdow
  * @Date: 2021-05-12 16:15:46
  * @LastEditors: null
- * @LastEditTime: 2021-05-12 18:41:29
+ * @LastEditTime: 2021-05-13 14:25:12
  * @Description: file content
  */
 // 添加状态
 import { RootDispatch } from '@src/store';
+import {
+    routesConfig as routes,
+    RouteConfigDeclaration as routesDeclaration,
+} from '@src/routes/routes-config';
 
 export interface UserStateDeclaration {
     pageName?: string;
     count: number;
+    routes: routesDeclaration[];
     menu: Array<any>;
     permission: Record<string, any>;
 }
@@ -18,6 +23,7 @@ export interface UserStateDeclaration {
 const state: UserStateDeclaration = {
     pageName: 'user',
     count: 0,
+    routes: routes,
     menu: [],
     permission: {},
 };
@@ -41,12 +47,12 @@ export default {
             return state;
         },
         SETMENU: (state: UserStateDeclaration, payload?: any): UserStateDeclaration => {
-            console.log('menu:', payload);
+            // console.log('menu:', payload);
             state.menu = payload;
             return state;
         },
         SETPERMISSION: (state: UserStateDeclaration, payload?: any): UserStateDeclaration => {
-            console.log('permission:', payload);
+            // console.log('permission:', payload);
             state.permission = payload;
             return state;
         },
@@ -60,12 +66,23 @@ export default {
             );
         },
         getPerssionList() {
-            queryPerssionList().then(res => {
-                const data = res.data.data || {};
-                const { menu = [], permission = {} } = data;
-                this.SETMENU(menu);
-                this.SETPERMISSION(permission);
-                // console.log('data:', data);
+            interface Iresolve {
+                menu: Array<any>;
+                permission: Array<any>;
+            }
+            return new Promise((resolve: (value: Iresolve) => void, reject) => {
+                queryPerssionList()
+                    .then(res => {
+                        const data = res.data.data || {};
+                        const { menu = [], permission = {} } = data;
+                        this.SETMENU(menu);
+                        this.SETPERMISSION(permission);
+                        resolve({ menu, permission });
+                        // console.log('data:', data);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
             });
         },
     }),

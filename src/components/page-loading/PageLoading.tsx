@@ -1,13 +1,15 @@
-/**
- * 页面正在加载中效果
- * @author atdow
+/*
+ * @Author: atdow
+ * @Date: 2021-05-11 15:38:06
+ * @LastEditors: null
+ * @LastEditTime: 2021-05-13 15:40:10
+ * @Description: file content
  */
-
 import React from 'react';
-import styles from './page-loading.less';
+import styles from './page-loading.module.less';
 import { Spin } from 'antd';
 
-export class PageLoading extends React.Component<
+export default class PageLoading extends React.Component<
     {
         message?: string;
         className?: string;
@@ -16,10 +18,9 @@ export class PageLoading extends React.Component<
     {}
 > {
     render() {
-        const { style, message = '加载中...', className } = this.props;
         return (
-            <div className={`${styles.container}  ${className}`} style={style}>
-                <Spin size="large" tip={message} />
+            <div className={styles.container}>
+                <Spin size="large" />
             </div>
         );
     }

@@ -41,7 +41,16 @@
         // 制定模块解析策略
         "moduleResolution": "node",
         /* 指定要包含在编译中的库文件——引用类库——即申明文件，如果输出的模块方式是 es5，就会默认引入 "dom","es5","scripthost" 。如果在 TS 中想要使用一些 ES6 以上版本的语法，就需要引入相关的类库 */
-        "lib": ["es5", "es6", "es7", "esnext", "dom", "dom.iterable", "scripthost"],
+        "lib": [
+            "es5",
+            "es6",
+            "es7",
+            "esnext",
+            "dom",
+            "dom.iterable",
+            "scripthost",
+            "ES2015.promise"
+        ],
         // 在解析非绝对路径模块名的时候的基准路径
         "baseUrl": "./",
         "paths": {
