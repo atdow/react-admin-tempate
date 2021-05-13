@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-13 18:16:14
+ * @LastEditTime: 2021-05-14 00:48:00
  * @Description: file content
  */
 import React from 'react';
@@ -78,7 +78,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         // localStorage.setItem('token', 'login');
     }
 
-    UNSAFE_componentWillMount() {}
+    UNSAFE_componentWillMount() { }
 
     componentWillReceiveProps(nextProps) {
         const { menu = [] } = nextProps;
@@ -87,20 +87,46 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         menu.forEach(menuItem => {
             let chidrenMenu = [];
             if (menuItem.parentId === 0) {
-                console.log('父级');
+                // console.log('父级');
                 chidrenMenu = menu.filter(item => {
                     return item.parentId == menuItem.id;
                 });
-                console.log('chidrenMenu：', chidrenMenu);
+                // console.log('chidrenMenu：', chidrenMenu);
                 formatMenu.push({
                     ...menuItem,
-                    chidren: chidrenMenu,
+                    children: chidrenMenu,
                 });
             }
         });
-        console.log('formatMenu:', formatMenu);
-        // let formatMenu = this.renderMenu(menu);
-        // this.setState({ formatMenu });
+        // console.log('formatMenu:', formatMenu);
+        this.setState({ formatMenu });
+
+        let formatMenu2 = this.menuDataFormat(menu)
+        console.log("formatMenu2:", formatMenu2)
+    }
+
+    menuDataFormat(menu = []) {
+        let arr = JSON.parse(JSON.stringify(menu));
+        if (menu.length === 0) {
+            return []
+        }
+
+        arr.forEach(arrItem1 => {
+            arr.forEach(arrItem2 => {
+                if (arrItem1.parentId === arrItem2.id) {
+                    if (!!arrItem2.children) {
+                        arrItem2.children.push(arrItem1)
+                    } else {
+                        arrItem2.children = [arrItem1]
+                    }
+                }
+            })
+        })
+        let formatData = arr.filter(item => {
+            return item.parentId === 0
+        })
+        console.log("formatData:", formatData)
+        console.log("menu:", menu)
     }
 
     toggleCollapsed = () => {
@@ -151,8 +177,8 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                         theme="dark"
                         inlineCollapsed={this.state.collapsed}
                     >
-                        {/* {this.state.formatMenu.map(curr => {
-                            if (curr.parentId !== 0) {
+                        {this.state.formatMenu.map(curr => {
+                            if (curr.children && curr.children.length !== 0) {
                                 return (
                                     <SubMenu
                                         key={curr.path}
@@ -162,18 +188,12 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                                             </span>
                                         }
                                     >
-                                        {this.resourceManagementChildren(curr.id).map(item => {
-                                            if (
-                                                curr.list === 'ResourceAdministration' &&
-                                                item.isresourceManagementChildren
-                                            ) {
-                                                return (
-                                                    <Menu.Item key={item.path}>
-                                                        {item.title}
-                                                    </Menu.Item>
-                                                );
-                                            }
-                                            return null;
+                                        {curr.children.map(item => {
+                                            return (
+                                                <Menu.Item key={item.path}>
+                                                    {item.name}
+                                                </Menu.Item>
+                                            );
                                         })}
                                     </SubMenu>
                                 );
@@ -183,39 +203,8 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                                     <span>{curr.name}</span>
                                 </Menu.Item>
                             );
-                        })} */}
+                        })}
                     </Menu>
-                    {/* <Menu
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
-                        mode="inline"
-                        theme="dark"
-                        inlineCollapsed={this.state.collapsed}
-                    >
-                        <Menu.Item key="1" icon={<PieChartOutlined />}>
-                            Option 1
-                        </Menu.Item>
-                        <Menu.Item key="2" icon={<DesktopOutlined />}>
-                            Option 2
-                        </Menu.Item>
-                        <Menu.Item key="3" icon={<ContainerOutlined />}>
-                            Option 3
-                        </Menu.Item>
-                        <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
-                            <Menu.Item key="5">Option 5</Menu.Item>
-                            <Menu.Item key="6">Option 6</Menu.Item>
-                            <Menu.Item key="7">Option 7</Menu.Item>
-                            <Menu.Item key="8">Option 8</Menu.Item>
-                        </SubMenu>
-                        <SubMenu key="sub2" icon={<AppstoreOutlined />} title="Navigation Two">
-                            <Menu.Item key="9">Option 9</Menu.Item>
-                            <Menu.Item key="10">Option 10</Menu.Item>
-                            <SubMenu key="sub3" title="Submenu">
-                                <Menu.Item key="11">Option 11</Menu.Item>
-                                <Menu.Item key="12">Option 12</Menu.Item>
-                            </SubMenu>
-                        </SubMenu>
-                    </Menu> */}
                 </div>
             </div>
         );

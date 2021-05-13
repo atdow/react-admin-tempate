@@ -865,6 +865,17 @@ const permission = options => {
     const menu = [
         // dashboard
         {
+            name: 'workplace',
+            parentId: 1,
+            id: 2,
+            meta: {
+                title: '工作台',
+                show: true,
+            },
+            component: 'Workplace',
+            path: '/dashboard/workplace',
+        },
+        {
             name: 'dashboard',
             parentId: 0,
             id: 1,
@@ -875,20 +886,10 @@ const permission = options => {
             },
             component: 'SecurityLayout',
             redirect: '/dashboard/workplace',
-        },
-        {
-            name: 'workplace',
-            parentId: 1,
-            id: 7,
-            meta: {
-                title: '工作台',
-                show: true,
-            },
-            component: 'Workplace',
+            path: '/dashboard/dashboard',
         },
         {
             name: 'monitor',
-            path: 'https://www.baidu.com/',
             parentId: 1,
             id: 3,
             meta: {
@@ -897,11 +898,12 @@ const permission = options => {
                 show: true,
             },
             component: 'monitor',
+            path: '/dashboard/monitor',
         },
         {
             name: 'Analysis',
             parentId: 1,
-            id: 2,
+            id: 4,
             meta: {
                 title: '分析页',
                 show: true,
@@ -910,14 +912,37 @@ const permission = options => {
             path: '/dashboard/analysis',
         },
         {
+            name: 'AnalysisChildren1',
+            parentId: 4,
+            id: 6,
+            meta: {
+                title: '分析页子1',
+                show: true,
+            },
+            component: 'AnalysisChildren1',
+            path: '/dashboard/analysisChildren1',
+        },
+        {
+            name: 'AnalysisChildren2',
+            parentId: 4,
+            id: 7,
+            meta: {
+                title: '分析页子2',
+                show: true,
+            },
+            component: 'AnalysisChildren2',
+            path: '/dashboard/analysisChildren2',
+        },
+        {
             name: 'tests',
             parentId: 1,
-            id: 8,
+            id: 5,
             meta: {
                 title: '测试功能',
                 show: true,
             },
             component: 'Tests',
+            path: '/dashboard/tests',
         },
     ];
     const permission = {
