@@ -2,10 +2,11 @@
  * @Author: atdow
  * @Date: 2021-05-11 15:38:06
  * @LastEditors: null
- * @LastEditTime: 2021-05-13 16:33:36
+ * @LastEditTime: 2021-05-14 17:04:35
  * @Description: file content
  */
 import './App.css';
+import '../style/reset.less';
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import GlobalContext from '@common/global-context';
@@ -15,6 +16,8 @@ import { connect } from 'react-redux';
 
 import GlobalHeader from '@src/components/GlobalHeader';
 import Menu from '@src/components/Menu';
+
+import history from '@store/history';
 
 interface AppProps {
     routes?: any;
@@ -30,13 +33,15 @@ class App extends React.PureComponent<AppProps> {
     render() {
         const routes = renderAllRoutes(this.props.routes);
         return (
-            <>
-                <GlobalHeader />
-                <Menu />
-                <GlobalContext.Provider value={this.globalContext}>
-                    <Switch>{routes}</Switch>
-                </GlobalContext.Provider>
-            </>
+            <div className="app">
+                <Menu history={history} />
+                <div className="s-content">
+                    <GlobalHeader history={history} />
+                    <GlobalContext.Provider value={this.globalContext}>
+                        <Switch>{routes}</Switch>
+                    </GlobalContext.Provider>
+                </div>
+            </div>
         );
     }
 }

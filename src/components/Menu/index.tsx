@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-14 00:48:00
+ * @LastEditTime: 2021-05-14 17:11:39
  * @Description: file content
  */
 import React from 'react';
@@ -67,6 +67,8 @@ type State = {
     collapsed: boolean;
     formatMenu: Array<any>;
 };
+
+// import { withRouter  } from 'react-router-dom';
 @connect(mapStateToProps, mapDispatchToProps)
 export default class SMenu extends React.Component<SecurityLayoutProps, State> {
     constructor(props) {
@@ -78,55 +80,65 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         // localStorage.setItem('token', 'login');
     }
 
-    UNSAFE_componentWillMount() { }
-
+    UNSAFE_componentWillMount() {}
     componentWillReceiveProps(nextProps) {
         const { menu = [] } = nextProps;
-        console.log('menu:', menu);
-        let formatMenu = [];
-        menu.forEach(menuItem => {
-            let chidrenMenu = [];
-            if (menuItem.parentId === 0) {
-                // console.log('父级');
-                chidrenMenu = menu.filter(item => {
-                    return item.parentId == menuItem.id;
-                });
-                // console.log('chidrenMenu：', chidrenMenu);
-                formatMenu.push({
-                    ...menuItem,
-                    children: chidrenMenu,
-                });
-            }
-        });
-        // console.log('formatMenu:', formatMenu);
+        let formatMenu = this.menuDataFormat(menu);
         this.setState({ formatMenu });
-
-        let formatMenu2 = this.menuDataFormat(menu)
-        console.log("formatMenu2:", formatMenu2)
     }
-
+    // 菜单数据格式化
     menuDataFormat(menu = []) {
         let arr = JSON.parse(JSON.stringify(menu));
         if (menu.length === 0) {
-            return []
+            return [];
         }
-
         arr.forEach(arrItem1 => {
             arr.forEach(arrItem2 => {
                 if (arrItem1.parentId === arrItem2.id) {
                     if (!!arrItem2.children) {
-                        arrItem2.children.push(arrItem1)
+                        arrItem2.children.push(arrItem1);
                     } else {
-                        arrItem2.children = [arrItem1]
+                        arrItem2.children = [arrItem1];
                     }
                 }
-            })
-        })
+            });
+        });
         let formatData = arr.filter(item => {
-            return item.parentId === 0
-        })
-        console.log("formatData:", formatData)
-        console.log("menu:", menu)
+            return item.parentId === 0;
+        });
+        console.log('formatData:', formatData);
+        // console.log('menu:', menu);
+        return formatData;
+    }
+    // 渲染菜单树
+    renderTree = data => {
+        return data.map(item => {
+            if (!item.children) {
+                return (
+                    <Menu.Item
+                        key={item.path}
+                        icon={item.meta.icon ? <PieChartOutlined /> : ''}
+                        onClick={this.menuClick.bind(this)}
+                    >
+                        <span>{item.meta.title}</span>
+                    </Menu.Item>
+                );
+            } else {
+                return (
+                    <SubMenu
+                        key={item.path}
+                        title={item.meta.title}
+                        icon={item.meta.icon ? <PieChartOutlined /> : ''}
+                    >
+                        {this.renderTree(item.children)}
+                    </SubMenu>
+                );
+            }
+        });
+    };
+    menuClick({ item, key, keyPath, domEvent }) {
+        const path = key;
+        // this.props.history.push(path);
     }
 
     toggleCollapsed = () => {
@@ -135,76 +147,40 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         });
     };
 
-    renderMenu(menu = []) {
-        let formatMenu = [];
-        menu.forEach(menuItem => {
-            if (menuItem.parentId === 0) {
-                formatMenu.push(
-                    <Menu.Item key={menuItem.id} icon={<PieChartOutlined />}>
-                        {menuItem.name}
-                    </Menu.Item>,
-                );
-            }
-        });
-        return formatMenu;
-    }
-    resourceManagementChildren(parentId) {
-        return this.props.menu.filter(menuItem => {
-            menuItem.id == parentId;
-        });
-    }
-
     render() {
         return (
-            <div>
+            <div
+                className={[
+                    styles.sMenu,
+                    this.state.collapsed ? styles.sMenuMin : styles.sMenuMax,
+                ].join(' ')}
+            >
                 <div className={styles.header}>
                     <Logo />
-                    <h1 className={styles.title}>react-admin</h1>
-                </div>
-                <div style={{ width: 256 }}>
-                    <Button
-                        type="primary"
-                        onClick={this.toggleCollapsed}
-                        style={{ marginBottom: 16 }}
+                    <h1
+                        className={[styles.title, this.state.collapsed ? styles.titleMin : ''].join(
+                            ' ',
+                        )}
                     >
+                        react-admin
+                    </h1>
+                </div>
+                <div>
+                    {this.state.formatMenu.length && (
+                        <Menu
+                            defaultSelectedKeys={['foundationplatform']}
+                            mode="inline"
+                            theme="dark"
+                            inlineCollapsed={this.state.collapsed}
+                        >
+                            {this.renderTree(this.state.formatMenu)}
+                        </Menu>
+                    )}
+                    <div className={styles.sFold} onClick={this.toggleCollapsed}>
                         {React.createElement(
                             this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                         )}
-                    </Button>
-                    <Menu
-                        defaultSelectedKeys={['foundationplatform']}
-                        mode="inline"
-                        theme="dark"
-                        inlineCollapsed={this.state.collapsed}
-                    >
-                        {this.state.formatMenu.map(curr => {
-                            if (curr.children && curr.children.length !== 0) {
-                                return (
-                                    <SubMenu
-                                        key={curr.path}
-                                        title={
-                                            <span>
-                                                <span>{curr.name}</span>
-                                            </span>
-                                        }
-                                    >
-                                        {curr.children.map(item => {
-                                            return (
-                                                <Menu.Item key={item.path}>
-                                                    {item.name}
-                                                </Menu.Item>
-                                            );
-                                        })}
-                                    </SubMenu>
-                                );
-                            }
-                            return (
-                                <Menu.Item key={curr.path}>
-                                    <span>{curr.name}</span>
-                                </Menu.Item>
-                            );
-                        })}
-                    </Menu>
+                    </div>
                 </div>
             </div>
         );

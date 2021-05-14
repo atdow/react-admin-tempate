@@ -2,11 +2,13 @@
  * @Author: atdow
  * @Date: 2021-05-13 15:18:29
  * @LastEditors: null
- * @LastEditTime: 2021-05-13 15:43:24
+ * @LastEditTime: 2021-05-14 15:08:59
  * @Description: file content
  */
 import React from 'react';
 import { Switch, RouteComponentProps } from 'react-router-dom';
+import styles from './header.module.less';
+import AvatarDropdown from './AvatarDropdown';
 
 import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
@@ -63,6 +65,10 @@ export default class GlobalHeader extends React.Component<SecurityLayoutProps, S
     UNSAFE_componentWillMount() {}
 
     render() {
-        return <div>GlobalHeader</div>;
+        return (
+            <div className={styles.sHeader}>
+                <AvatarDropdown />
+            </div>
+        );
     }
 }
