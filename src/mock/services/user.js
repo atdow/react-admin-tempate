@@ -911,28 +911,28 @@ const permission = options => {
             component: 'Analysis',
             path: '/dashboard/analysis',
         },
-        {
-            name: 'AnalysisChildren1',
-            parentId: 4,
-            id: 6,
-            meta: {
-                title: '分析页子1',
-                show: true,
-            },
-            component: 'AnalysisChildren1',
-            path: '/dashboard/analysisChildren1',
-        },
-        {
-            name: 'AnalysisChildren2',
-            parentId: 4,
-            id: 7,
-            meta: {
-                title: '分析页子2',
-                show: true,
-            },
-            component: 'AnalysisChildren2',
-            path: '/dashboard/analysisChildren2',
-        },
+        // {
+        //     name: 'AnalysisChildren1',
+        //     parentId: 4,
+        //     id: 6,
+        //     meta: {
+        //         title: '分析页子1',
+        //         show: true,
+        //     },
+        //     component: 'AnalysisChildren1',
+        //     path: '/dashboard/analysisChildren1',
+        // },
+        // {
+        //     name: 'AnalysisChildren2',
+        //     parentId: 4,
+        //     id: 7,
+        //     meta: {
+        //         title: '分析页子2',
+        //         show: true,
+        //     },
+        //     component: 'AnalysisChildren2',
+        //     path: '/dashboard/analysisChildren2',
+        // },
         {
             name: 'tests',
             parentId: 1,

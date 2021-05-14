@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-14 17:11:39
+ * @LastEditTime: 2021-05-14 18:30:06
  * @Description: file content
  */
 import React from 'react';
@@ -66,9 +66,10 @@ type SecurityLayoutProps = RouterProps &
 type State = {
     collapsed: boolean;
     formatMenu: Array<any>;
+    defaultSelectedKeys: Array<string>;
+    defaultOpenKeys: Array<string>;
 };
 
-// import { withRouter  } from 'react-router-dom';
 @connect(mapStateToProps, mapDispatchToProps)
 export default class SMenu extends React.Component<SecurityLayoutProps, State> {
     constructor(props) {
@@ -76,6 +77,8 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         this.state = {
             collapsed: false,
             formatMenu: [],
+            defaultSelectedKeys: [],
+            defaultOpenKeys: [],
         };
         // localStorage.setItem('token', 'login');
     }
@@ -84,7 +87,14 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
     componentWillReceiveProps(nextProps) {
         const { menu = [] } = nextProps;
         let formatMenu = this.menuDataFormat(menu);
-        this.setState({ formatMenu });
+        const pathname = this.props.history.location.pathname;
+        let defaultOpenKeys = this.calDefaultOpenKeys(menu, pathname);
+        //let defaultOpenKeys = this.calDefaultOpenKeys(menu, '/dashboard/analysisChildren2');
+        this.setState({
+            formatMenu,
+            defaultSelectedKeys: [pathname],
+            defaultOpenKeys: defaultOpenKeys,
+        });
     }
     // 菜单数据格式化
     menuDataFormat(menu = []) {
@@ -118,7 +128,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                     <Menu.Item
                         key={item.path}
                         icon={item.meta.icon ? <PieChartOutlined /> : ''}
-                        onClick={this.menuClick.bind(this)}
+                        onClick={this.menuClick.bind(this, item)}
                     >
                         <span>{item.meta.title}</span>
                     </Menu.Item>
@@ -136,9 +146,30 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
             }
         });
     };
-    menuClick({ item, key, keyPath, domEvent }) {
-        const path = key;
-        // this.props.history.push(path);
+    calDefaultOpenKeys(menu = [], pathname) {
+        let defaultOpenKeys = [];
+        let currentName = ''; // 当前选中菜单
+        menu.forEach(menuItem => {
+            if (menuItem.path === pathname) {
+                currentName = menuItem;
+            }
+        });
+        // 一层一层往上找，只要是父级就push
+        findDefaultOpenKeys(currentName);
+        function findDefaultOpenKeys(currentName) {
+            menu.forEach(menuItem => {
+                if (menuItem.id === currentName.parentId) {
+                    defaultOpenKeys.push(menuItem.path);
+                    if (menuItem.parentId !== 0) {
+                        findDefaultOpenKeys(menuItem);
+                    }
+                }
+            });
+        }
+        return defaultOpenKeys;
+    }
+    menuClick(item) {
+        console.log('item:', item);
     }
 
     toggleCollapsed = () => {
@@ -168,7 +199,8 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                 <div>
                     {this.state.formatMenu.length && (
                         <Menu
-                            defaultSelectedKeys={['foundationplatform']}
+                            defaultOpenKeys={this.state.defaultOpenKeys}
+                            defaultSelectedKeys={this.state.defaultSelectedKeys}
                             mode="inline"
                             theme="dark"
                             inlineCollapsed={this.state.collapsed}
