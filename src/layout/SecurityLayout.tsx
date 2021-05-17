@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 18:09:18
  * @LastEditors: null
- * @LastEditTime: 2021-05-17 11:07:16
+ * @LastEditTime: 2021-05-17 13:36:12
  * @Description: file content
  */
 import styles from './userlayout.module.less';
@@ -13,6 +13,8 @@ import { Switch, RouteComponentProps } from 'react-router-dom';
 
 import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
+
+import history from '@store/history';
 
 import Menu from '@src/components/Menu';
 import GlobalHeader from '@src/components/GlobalHeader';
@@ -114,7 +116,9 @@ export default class SecurityLayout extends React.Component<SecurityLayoutProps,
                         <Menu history={history} />
                         <div className="s-content">
                             <GlobalHeader history={history} />
-                            <Switch>{routes}</Switch>
+                            <div className="s-content-route">
+                                <Switch>{routes}</Switch>
+                            </div>
                         </div>
                     </div>
                 )}

@@ -881,12 +881,12 @@ const permission = options => {
             id: 1,
             meta: {
                 icon: 'dashboard',
-                title: '仪表盘',
+                title: 'Dashboard',
                 show: true,
             },
             component: 'SecurityLayout',
             redirect: '/dashboard/workplace',
-            path: '/dashboard/dashboard',
+            path: '/dashboard',
         },
         {
             name: 'monitor',
@@ -943,6 +943,53 @@ const permission = options => {
             },
             component: 'Tests',
             path: '/dashboard/tests',
+        },
+        // Exception
+        {
+            name: 'exception',
+            parentId: 0,
+            id: 6,
+            meta: {
+                icon: 'exception',
+                title: '异常页',
+                show: true,
+            },
+            component: 'SecurityLayout',
+            redirect: '/exception',
+            path: '/exception',
+        },
+        {
+            name: '403',
+            parentId: 6,
+            id: 7,
+            meta: {
+                title: '403',
+                show: true,
+            },
+            component: '403',
+            path: '/exception/403',
+        },
+        {
+            name: '404',
+            parentId: 6,
+            id: 8,
+            meta: {
+                title: '404',
+                show: true,
+            },
+            component: '404',
+            path: '/exception/404',
+        },
+        {
+            name: '500',
+            parentId: 6,
+            id: 9,
+            meta: {
+                title: '500',
+                show: true,
+            },
+            component: '500',
+            path: '/exception/500',
         },
     ];
     const permission = {

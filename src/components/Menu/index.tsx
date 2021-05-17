@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-17 11:13:29
+ * @LastEditTime: 2021-05-17 13:55:26
  * @Description: file content
  */
 import React from 'react';
@@ -122,7 +122,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         let formatData = arr.filter(item => {
             return item.parentId === 0;
         });
-        console.log('formatData:', formatData);
+        // console.log('formatData:', formatData);
         // console.log('menu:', menu);
         return formatData;
     }
@@ -130,25 +130,29 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
     renderTree = data => {
         return data.map(item => {
             if (!item.children) {
-                return (
-                    <Menu.Item
-                        key={item.path}
-                        icon={item.meta.icon ? <PieChartOutlined /> : ''}
-                        onClick={this.menuClick.bind(this, item)}
-                    >
-                        <span>{item.meta.title}</span>
-                    </Menu.Item>
-                );
+                if (item.meta?.show) {
+                    return (
+                        <Menu.Item
+                            key={item.path}
+                            icon={item.meta?.icon ? <PieChartOutlined /> : ''}
+                            onClick={this.menuClick.bind(this, item)}
+                        >
+                            <span>{item.meta.title}</span>
+                        </Menu.Item>
+                    );
+                }
             } else {
-                return (
-                    <SubMenu
-                        key={item.path}
-                        title={item.meta.title}
-                        icon={item.meta.icon ? <PieChartOutlined /> : ''}
-                    >
-                        {this.renderTree(item.children)}
-                    </SubMenu>
-                );
+                if (item.meta?.show) {
+                    return (
+                        <SubMenu
+                            key={item.path}
+                            title={item.meta?.title}
+                            icon={item.meta?.icon ? <PieChartOutlined /> : ''}
+                        >
+                            {this.renderTree(item.children)}
+                        </SubMenu>
+                    );
+                }
             }
         });
     };
@@ -175,15 +179,14 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         return defaultOpenKeys;
     }
     menuClick(item) {
-        console.log('item:', item);
+        // console.log('item:', item);
+        this.props.history.push(item.path);
     }
-
     toggleCollapsed = () => {
         this.setState({
             collapsed: !this.state.collapsed,
         });
     };
-
     render() {
         return (
             <div

@@ -116,6 +116,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
                     },
                 ],
             },
+            // dashboard
             {
                 path: '/dashboard',
                 isDynamic: true,
@@ -143,6 +144,41 @@ export const routesConfig: RouteConfigDeclaration[] = [
                             import(
                                 /* webpackChunkName: "workplace" */ '@src/views/dashboard/Workplace'
                             ),
+                        ),
+                    },
+                ],
+            },
+            // exception
+            {
+                path: '/exception',
+                isDynamic: true,
+                isRedirect: true,
+                component: React.lazy(() =>
+                    import(
+                        /* webpackChunkName: "exception" */
+                        '@src/layout/SecurityLayout'
+                    ),
+                ),
+                routes: [
+                    {
+                        path: '/exception/403',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(/* webpackChunkName: "403" */ '@src/views/exception/403'),
+                        ),
+                    },
+                    {
+                        path: '/exception/404',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(/* webpackChunkName: "404" */ '@src/views/exception/404'),
+                        ),
+                    },
+                    {
+                        path: '/exception/500',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(/* webpackChunkName: "500" */ '@src/views/exception/500'),
                         ),
                     },
                 ],

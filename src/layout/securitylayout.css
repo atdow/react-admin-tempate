@@ -1,6 +1,10 @@
 .s-security-layout {
     display: flex;
+    background: #f0f2f5;
 }
 .s-content {
     flex: 1;
+}
+.s-content-route {
+    margin: 24px;
 }
