@@ -1,0 +1,6 @@
+.s-security-layout {
+    display: flex;
+}
+.s-content {
+    flex: 1;
+}

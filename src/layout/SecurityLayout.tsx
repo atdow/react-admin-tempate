@@ -2,16 +2,20 @@
  * @Author: atdow
  * @Date: 2021-05-12 18:09:18
  * @LastEditors: null
- * @LastEditTime: 2021-05-13 15:43:45
+ * @LastEditTime: 2021-05-17 11:07:16
  * @Description: file content
  */
 import styles from './userlayout.module.less';
+import './securitylayout.css';
 import React from 'react';
 import { renderAllRoutes } from '@routes/route-loader';
 import { Switch, RouteComponentProps } from 'react-router-dom';
 
 import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
+
+import Menu from '@src/components/Menu';
+import GlobalHeader from '@src/components/GlobalHeader';
 
 function mapStateToProps(state: RootState) {
     const {
@@ -69,10 +73,16 @@ export default class SecurityLayout extends React.Component<SecurityLayoutProps,
         const pathname = this.props.location.pathname;
         if (menu.length == 0) {
             console.log('请求了权限...');
-            this.props.getPerssionList().then(res => {
-                const { menu = [], permission = [] } = res as any;
-                this.judgeHasPermission(menu, pathname);
-            });
+            this.props
+                .getPerssionList()
+                .then(res => {
+                    const { menu = [], permission = [] } = res as any;
+                    this.judgeHasPermission(menu, pathname);
+                })
+                .catch(() => {
+                    // TODO 需要做更细的颗粒度，控制跳转404|403|login
+                    this.props.history.push('/user/login');
+                });
         } else {
             console.log('缓存的权限...');
             this.judgeHasPermission(menu, pathname);
@@ -97,6 +107,25 @@ export default class SecurityLayout extends React.Component<SecurityLayoutProps,
 
     render() {
         const routes = renderAllRoutes(this.props.routes);
-        return <div>{this.state.hasPermission && <Switch>{routes}</Switch>}</div>;
+        return (
+            <div>
+                {this.state.hasPermission && (
+                    <div className="s-security-layout">
+                        <Menu history={history} />
+                        <div className="s-content">
+                            <GlobalHeader history={history} />
+                            <Switch>{routes}</Switch>
+                        </div>
+                    </div>
+                )}
+                {/* <div className="s-security-layout">
+                    <Menu history={history} />
+                    <div className="s-content">
+                        <GlobalHeader history={history} />
+                        <Switch>{routes}</Switch>
+                    </div>
+                </div> */}
+            </div>
+        );
     }
 }

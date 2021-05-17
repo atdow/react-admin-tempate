@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-14 18:30:06
+ * @LastEditTime: 2021-05-17 11:13:29
  * @Description: file content
  */
 import React from 'react';
@@ -82,12 +82,18 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         };
         // localStorage.setItem('token', 'login');
     }
-
-    UNSAFE_componentWillMount() {}
+    // 两种兼容方式1
+    UNSAFE_componentWillMount() {
+        this.init(this.props);
+    }
+    // 两种兼容方式2
     componentWillReceiveProps(nextProps) {
-        const { menu = [] } = nextProps;
+        this.init(nextProps);
+    }
+    init(props) {
+        const { menu = [] } = props;
         let formatMenu = this.menuDataFormat(menu);
-        const pathname = this.props.history.location.pathname;
+        const pathname = this.props.history?.location?.pathname;
         let defaultOpenKeys = this.calDefaultOpenKeys(menu, pathname);
         //let defaultOpenKeys = this.calDefaultOpenKeys(menu, '/dashboard/analysisChildren2');
         this.setState({

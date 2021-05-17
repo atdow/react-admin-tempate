@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-11 15:38:06
  * @LastEditors: null
- * @LastEditTime: 2021-05-14 17:04:35
+ * @LastEditTime: 2021-05-17 10:54:27
  * @Description: file content
  */
 import './App.css';
@@ -34,9 +34,9 @@ class App extends React.PureComponent<AppProps> {
         const routes = renderAllRoutes(this.props.routes);
         return (
             <div className="app">
-                <Menu history={history} />
+                {/* <Menu history={history} /> */}
                 <div className="s-content">
-                    <GlobalHeader history={history} />
+                    {/* <GlobalHeader history={history} /> */}
                     <GlobalContext.Provider value={this.globalContext}>
                         <Switch>{routes}</Switch>
                     </GlobalContext.Provider>
