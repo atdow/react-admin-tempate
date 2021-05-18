@@ -57,45 +57,28 @@ export const routesConfig: RouteConfigDeclaration[] = [
         name: 'root-route',
         component: App,
         routes: [
+            // 首页
             {
-                path: '/home',
-                // exact: true,
+                path: '/index',
                 isDynamic: true,
-                // loadingFallback: '不一样的 loading 内容...',
-                // component: Home,
-                // component: React.lazy(
-                //     () =>
-                //         new Promise(resolve =>
-                //             setTimeout(
-                //                 () =>
-                //                     resolve(
-                //                       import(/* webpackChunkName: "home"*/ '@src/views/home/Home'),
-                //                     ),
-                //                 2000,
-                //             ),
-                //         ),
-                // ),
+                isRedirect: true,
                 component: React.lazy(() =>
-                    import(/* webpackChunkName: "home"*/ '@src/views/home/Home'),
+                    import(
+                        /* webpackChunkName: "dashboard" */
+                        '@src/layout/SecurityLayout'
+                    ),
                 ),
                 routes: [
                     {
-                        path: '/home/child-one',
+                        path: '/index/home',
                         isDynamic: true,
                         component: React.lazy(() =>
-                            import(/* webpackChunkName: "child-one" */ '@src/views/home/ChildOne'),
-                        ),
-                    },
-                    {
-                        path: '/home/child-two',
-                        isRedirect: true,
-                        isDynamic: true,
-                        component: React.lazy(() =>
-                            import(/* webpackChunkName: "child-two" */ '@src/views/home/ChildTwo'),
+                            import(/* webpackChunkName: "home" */ '@src/views/home'),
                         ),
                     },
                 ],
             },
+            // user
             {
                 path: '/user',
                 isDynamic: true,
@@ -182,24 +165,6 @@ export const routesConfig: RouteConfigDeclaration[] = [
                         ),
                     },
                 ],
-            },
-            {
-                path: '/login',
-                isDynamic: true,
-                isRedirect: true,
-                component: React.lazy(() =>
-                    import(
-                        /* webpackChunkName: "login" */
-                        '@src/views/login/Login'
-                    ),
-                ),
-            },
-            {
-                path: '/register',
-                isDynamic: true,
-                component: React.lazy(() =>
-                    import(/* webpackChunkName: "register"*/ '@src/views/register/Register'),
-                ),
             },
         ],
     },

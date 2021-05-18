@@ -467,6 +467,19 @@ const info = options => {
 
 const userNav = options => {
     const nav = [
+        // 首页
+        {
+            name: 'index',
+            parentId: 0,
+            id: 19,
+            meta: {
+                icon: 'home',
+                title: '首页',
+                show: true,
+            },
+            component: 'Home',
+            path: '/index/home',
+        },
         // dashboard
         {
             name: 'dashboard',
@@ -863,6 +876,19 @@ const userNav = options => {
 
 const permission = options => {
     const menu = [
+        // 首页
+        {
+            name: 'index',
+            parentId: 0,
+            id: 10000,
+            meta: {
+                icon: 'home',
+                title: '首页',
+                show: true,
+            },
+            component: 'Home',
+            path: '/index/home',
+        },
         // dashboard
         {
             name: 'workplace',

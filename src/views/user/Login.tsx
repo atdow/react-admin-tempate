@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 10:47:33
  * @LastEditors: null
- * @LastEditTime: 2021-05-12 17:22:45
+ * @LastEditTime: 2021-05-18 16:23:09
  * @Description: file content
  */
 import React from 'react';
@@ -15,8 +15,6 @@ import { connect } from '@store/connect';
 
 import { Form, Input, Button } from 'antd';
 
-import { login } from '@src/services/api/user/index';
-
 function mapStateToProps(state: RootState) {
     const {
         user: { count },
@@ -27,9 +25,7 @@ function mapStateToProps(state: RootState) {
 function mapDispatchToProps(dispatch: RootDispatch) {
     const { user } = dispatch;
     return {
-        increment: user.INCREMENT,
-        decrement: user.decrement,
-        getPerssionList: user.getPerssionList,
+        login: user.login,
     };
 }
 
@@ -56,7 +52,9 @@ type LoginProps = RouterProps &
         routes?: any;
         count?: number;
     };
-
+interface isState {
+    loading: boolean;
+}
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 24 },
@@ -66,7 +64,7 @@ const tailLayout = {
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Login extends React.Component<LoginProps> {
+export default class Login extends React.Component<LoginProps, isState> {
     static contextType = GlobalContext;
     formRef: React.RefObject<any>;
     constructor(props, context) {
@@ -77,18 +75,6 @@ export default class Login extends React.Component<LoginProps> {
         };
     }
 
-    handleLinkBtnClick = () => {
-        this.props.history.push('/home');
-    };
-
-    handleAddBtnClick = () => {
-        this.props.increment();
-    };
-
-    handleDecreaseBtnClick = () => {
-        this.props.decrement();
-    };
-
     componentDidMount() {
         // console.log('this.formRef:', this.formRef);
         (this.formRef['current'] as any).setFieldsValue({
@@ -96,30 +82,25 @@ export default class Login extends React.Component<LoginProps> {
             password: '123456',
         });
     }
-
+    // 登录
     onFinish = (values: any) => {
-        this.props.increment();
-        this.props.getPerssionList().then(res => {
-            console.log('res:', res);
-        });
-        console.log('this.props:', this.props);
         this.setState({ loading: true });
-        login(values)
+        this.props
+            .login(values)
             .then(res => {
-                console.log('res:', res.data);
+                this.props.history.push('/index/home');
             })
             .catch(err => {})
             .finally(() => {
                 this.setState({ loading: false });
             });
     };
-
     onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
 
     render() {
-        const { count } = this.props;
+        //  const { count } = this.props;
         return (
             <div className={styles.container}>
                 <div className={styles.content}>
@@ -149,7 +130,7 @@ export default class Login extends React.Component<LoginProps> {
                             </Button>
                         </Form.Item>
                     </Form>
-                    <span>{this.props.count}</span>
+                    {/* <span>{this.props.count}</span> */}
                 </div>
             </div>
         );

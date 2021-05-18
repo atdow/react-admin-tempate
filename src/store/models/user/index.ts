@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 16:15:46
  * @LastEditors: null
- * @LastEditTime: 2021-05-13 14:25:12
+ * @LastEditTime: 2021-05-18 15:57:33
  * @Description: file content
  */
 // 添加状态
@@ -11,6 +11,9 @@ import {
     routesConfig as routes,
     RouteConfigDeclaration as routesDeclaration,
 } from '@src/routes/routes-config';
+
+import { login } from '@src/services/api/user/index';
+import { tokenManager } from '@src/utils/token-manager';
 
 export interface UserStateDeclaration {
     pageName?: string;
@@ -58,6 +61,20 @@ export default {
         },
     },
     effects: (dispatch: RootDispatch) => ({
+        login(values) {
+            return new Promise((resolve, reject) => {
+                login(values)
+                    .then(res => {
+                        const data = res.data.data || {};
+                        console.log('data:', data);
+                        tokenManager.setToken(data.token);
+                        resolve(true);
+                    })
+                    .catch(err => {
+                        reject(false);
+                    });
+            });
+        },
         getUserInfoAsync() {
             return new Promise(resolve =>
                 setTimeout(() => {
