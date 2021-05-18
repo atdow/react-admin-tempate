@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 10:47:33
  * @LastEditors: null
- * @LastEditTime: 2021-05-18 17:29:42
+ * @LastEditTime: 2021-05-18 17:39:03
  * @Description: file content
  */
 import React from 'react';
@@ -98,7 +98,7 @@ export default class Login extends React.Component<LoginProps, isState> {
     };
     onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
-        // test
+        // test2
     };
 
     render() {
