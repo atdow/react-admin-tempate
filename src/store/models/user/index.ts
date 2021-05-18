@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 16:15:46
  * @LastEditors: null
- * @LastEditTime: 2021-05-18 15:57:33
+ * @LastEditTime: 2021-05-18 16:56:27
  * @Description: file content
  */
 // 添加状态
@@ -66,7 +66,7 @@ export default {
                 login(values)
                     .then(res => {
                         const data = res.data.data || {};
-                        console.log('data:', data);
+                        //  console.log('data:', data);
                         tokenManager.setToken(data.token);
                         resolve(true);
                     })
@@ -83,11 +83,27 @@ export default {
             );
         },
         getPerssionList() {
-            interface Iresolve {
-                menu: Array<any>;
-                permission: Array<any>;
+            interface menuDeclaration {
+                name: string;
+                parentId: string | number;
+                id: string | number;
+                meta: {
+                    icon?: string;
+                    title: string;
+                    show: boolean;
+                };
+                component?: string;
+                redirect?: string;
+                path: string;
             }
-            return new Promise((resolve: (value: Iresolve) => void, reject) => {
+            interface permissionDeclaration {
+                [key: string]: boolean;
+            }
+            interface resolveDeclaration {
+                menu: menuDeclaration[];
+                permission: permissionDeclaration;
+            }
+            return new Promise((resolve: (value: resolveDeclaration) => void, reject) => {
                 queryPerssionList()
                     .then(res => {
                         const data = res.data.data || {};

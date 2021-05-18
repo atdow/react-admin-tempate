@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 10:47:33
  * @LastEditors: null
- * @LastEditTime: 2021-05-18 16:23:09
+ * @LastEditTime: 2021-05-18 16:28:03
  * @Description: file content
  */
 import React from 'react';
@@ -55,6 +55,7 @@ type LoginProps = RouterProps &
 interface isState {
     loading: boolean;
 }
+
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 24 },
