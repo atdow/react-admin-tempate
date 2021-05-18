@@ -1,9 +1,0 @@
-#root {
-    height: 100%;
-}
-.app {
-    display: flex;
-}
-.s-content {
-    flex: 1;
-}

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[3],{520:function(e,t,a){"use strict";a.r(t);a(384);var n=a(387),o=(a(370),a(372)),r=a(0),s=a.n(r);t.default=function(){return s.a.createElement(n.a,{status:"404",title:"404",style:{background:"none"},subTitle:"Sorry, the page you visited does not exist.",extra:s.a.createElement(o.a,{type:"primary"},"Back Home")})}}}]);
