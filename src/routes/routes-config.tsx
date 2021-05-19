@@ -61,7 +61,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
             {
                 path: '/index',
                 isDynamic: true,
-                isRedirect: true,
+                isRedirect: false,
                 component: React.lazy(() =>
                     import(
                         /* webpackChunkName: "dashboard" */
@@ -82,7 +82,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
             {
                 path: '/user',
                 isDynamic: true,
-                isRedirect: true,
+                isRedirect: false,
                 component: React.lazy(() =>
                     import(
                         /* webpackChunkName: "userlayout" */
@@ -103,7 +103,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
             {
                 path: '/dashboard',
                 isDynamic: true,
-                isRedirect: true,
+                isRedirect: false,
                 component: React.lazy(() =>
                     import(
                         /* webpackChunkName: "dashboard" */
@@ -135,7 +135,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
             {
                 path: '/exception',
                 isDynamic: true,
-                isRedirect: true,
+                isRedirect: false,
                 component: React.lazy(() =>
                     import(
                         /* webpackChunkName: "exception" */
