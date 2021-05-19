@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 10:41:48
  * @LastEditors: null
- * @LastEditTime: 2021-05-12 13:58:53
+ * @LastEditTime: 2021-05-19 14:17:51
  * @Description: file content
  */
 import styles from './userlayout.module.less';
@@ -38,7 +38,7 @@ type HomeProps = RouterProps &
 export default class Home extends React.Component<HomeProps> {
     constructor(props) {
         super(props);
-        localStorage.setItem('token', 'login');
+        //  localStorage.setItem('token', 'login');
     }
 
     render() {

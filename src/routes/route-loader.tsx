@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-11 18:43:33
  * @LastEditors: null
- * @LastEditTime: 2021-05-13 16:25:01
+ * @LastEditTime: 2021-05-19 14:12:37
  * @Description: file content
  */
 /**
@@ -73,7 +73,7 @@ export function renderRoutes(routesConfig: RouteConfigDeclaration[], extraProps:
                 exact={exact}
                 component={props => {
                     if (isProtected && !localStorage.getItem('token')) {
-                        return <Redirect key={'login-redirect'} to={'/login'} />;
+                        return <Redirect key={'login-redirect'} to={'/user/login'} />;
                     }
                     if (isDynamic) {
                         return (

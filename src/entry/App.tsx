@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-11 15:38:06
  * @LastEditors: null
- * @LastEditTime: 2021-05-17 10:54:27
+ * @LastEditTime: 2021-05-19 14:06:15
  * @Description: file content
  */
 import './App.css';
@@ -32,6 +32,7 @@ class App extends React.PureComponent<AppProps> {
 
     render() {
         const routes = renderAllRoutes(this.props.routes);
+        console.log('routes:', routes);
         return (
             <div className="app">
                 {/* <Menu history={history} /> */}

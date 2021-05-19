@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-11 18:43:33
  * @LastEditors: null
- * @LastEditTime: 2021-05-13 16:27:08
+ * @LastEditTime: 2021-05-19 14:15:51
  * @Description: file content
  */
 /**
@@ -42,6 +42,7 @@ function renderApp() {
         <ConfigProvider locale={zh_CN}>
             <Provider store={store}>
                 {/*<BrowserRouter>{renderRoutes(routesConfig)}</BrowserRouter>*/}
+                {/* <ConnectedRouter history={history} basename={process.env.PUBLIC_URL}>{renderRoutes(routesConfig)}</ConnectedRouter> */}
                 <ConnectedRouter history={history}>{renderRoutes(routesConfig)}</ConnectedRouter>
             </Provider>
         </ConfigProvider>,
