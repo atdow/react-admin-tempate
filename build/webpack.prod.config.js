@@ -1,3 +1,10 @@
+/*
+ * @Author: atdow
+ * @Date: 2021-05-19 10:24:12
+ * @LastEditors: null
+ * @LastEditTime: 2021-05-19 11:18:11
+ * @Description: file content
+ */
 const webpack = require('webpack');
 const path = require('path');
 const glob = require('glob');
@@ -70,7 +77,8 @@ module.exports = smart(baseConfig, {
             }),
         ],
         splitChunks: {
-            minSize: 3000,
+            // minSize: 3000,
+            minSize: 300000000,
             cacheGroups: {
                 // default:false,
                 vendors: {
