@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-19 10:24:12
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 11:31:15
+ * @LastEditTime: 2021-05-19 13:49:33
  * @Description: file content
  */
 const webpack = require('webpack');
@@ -27,7 +27,7 @@ module.exports = smart(baseConfig, {
         path: path.resolve('dist'),
         filename: 'js/[name].[contenthash:8].bundle.js',
         chunkFilename: 'js/[name].[contenthash:8].chunk.js',
-        publicPath: './',
+        publicPath: '/',
     },
     module: {
         rules: [].concat(styleLoaders),

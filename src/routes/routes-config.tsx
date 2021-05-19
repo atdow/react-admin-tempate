@@ -57,36 +57,36 @@ export const routesConfig: RouteConfigDeclaration[] = [
         name: 'root-route',
         component: App,
         routes: [
-            // // 首页
-            // {
-            //     path: '/index',
-            //     isDynamic: true,
-            //     isRedirect: false,
-            //     component: React.lazy(() =>
-            //         import(
-            //             /* webpackChunkName: "dashboard" */
-            //             '@src/layout/SecurityLayout'
-            //         ),
-            //     ),
-            //     routes: [
-            //         {
-            //             path: '/index/home',
-            //             isDynamic: true,
-            //             component: React.lazy(() =>
-            //                 import(/* webpackChunkName: "home" */ '@src/views/home'),
-            //             ),
-            //         },
-            //     ],
-            // },
             // 首页
             {
                 path: '/index',
                 isDynamic: true,
                 isRedirect: false,
                 component: React.lazy(() =>
-                    import(/* webpackChunkName: "home" */ '@src/views/home'),
+                    import(
+                        /* webpackChunkName: "dashboard" */
+                        '@src/layout/SecurityLayout'
+                    ),
                 ),
+                routes: [
+                    {
+                        path: '/index/home',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(/* webpackChunkName: "home" */ '@src/views/home'),
+                        ),
+                    },
+                ],
             },
+            // // 首页
+            // {
+            //     path: '/index',
+            //     isDynamic: true,
+            //     isRedirect: false,
+            //     component: React.lazy(() =>
+            //         import(/* webpackChunkName: "home" */ '@src/views/home'),
+            //     ),
+            // },
             // user
             {
                 path: '/user',
