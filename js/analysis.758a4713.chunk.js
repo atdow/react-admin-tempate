@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{519:function(n,a,e){"use strict";e.r(a),e.d(a,"default",(function(){return u}));var t=e(0),r=e.n(t);function u(n){return r.a.createElement("div",null,"/dashboard/analysis")}}}]);
