@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-19 10:24:12
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 11:18:11
+ * @LastEditTime: 2021-05-19 11:28:07
  * @Description: file content
  */
 const webpack = require('webpack');
@@ -27,7 +27,7 @@ module.exports = smart(baseConfig, {
         path: path.resolve('dist'),
         filename: 'js/[name].[contenthash:8].bundle.js',
         chunkFilename: 'js/[name].[contenthash:8].chunk.js',
-        publicPath: './',
+        publicPath: './react-admin-tempate',
     },
     module: {
         rules: [].concat(styleLoaders),
@@ -78,7 +78,7 @@ module.exports = smart(baseConfig, {
         ],
         splitChunks: {
             // minSize: 3000,
-            minSize: 300000000,
+            minSize: 300000000, // 暂时不分包
             cacheGroups: {
                 // default:false,
                 vendors: {
