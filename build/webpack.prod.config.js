@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-19 10:24:12
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 15:42:21
+ * @LastEditTime: 2021-05-19 17:04:20
  * @Description: 请根据实际情况修改publicPath
  */
 const webpack = require('webpack');
@@ -77,8 +77,8 @@ module.exports = smart(baseConfig, {
             }),
         ],
         splitChunks: {
-            // minSize: 3000,
-            minSize: 300000000, // 暂时不分包
+             minSize: 3000,
+            //minSize: 300000000, // 暂时不分包
             cacheGroups: {
                 // default:false,
                 vendors: {

@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 16:21:01
+ * @LastEditTime: 2021-05-19 16:41:34
  * @Description: file content
  */
 import React from 'react';
@@ -121,8 +121,15 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         // console.log('menu:', menu);
         return formatData;
     }
+    // 渲染icon
     renderIcon(icon) {
-        return '';
+        if (icon) {
+            return React.createElement(Icon[icon], {
+                style: { fontSize: '16px', color: '#fff' },
+            });
+        } else {
+            return '';
+        }
     }
     // 渲染菜单树
     renderTree = data => {
@@ -132,12 +139,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                     return (
                         <Menu.Item
                             key={item.path}
-                            icon={
-                                item?.meta?.icon &&
-                                React.createElement(Icon[item.meta.icon], {
-                                    style: { fontSize: '16px', color: '#fff' },
-                                })
-                            }
+                            icon={this.renderIcon(item?.meta?.icon)}
                             onClick={this.menuClick.bind(this, item)}
                         >
                             <span>{item.meta.title}</span>
@@ -150,9 +152,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                         <SubMenu
                             key={item.path}
                             title={item?.meta?.title}
-                            icon={React.createElement(Icon[item.meta.icon], {
-                                style: { fontSize: '16px', color: '#fff' },
-                            })}
+                            icon={this.renderIcon(item?.meta?.icon)}
                         >
                             {this.renderTree(item.children)}
                         </SubMenu>
