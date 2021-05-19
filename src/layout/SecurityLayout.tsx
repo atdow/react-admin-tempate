@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 18:09:18
  * @LastEditors: null
- * @LastEditTime: 2021-05-17 13:36:12
+ * @LastEditTime: 2021-05-19 14:37:55
  * @Description: file content
  */
 import styles from './userlayout.module.less';
@@ -59,6 +59,9 @@ type SecurityLayoutProps = RouterProps &
 type State = {
     hasPermission: boolean;
 };
+
+import { baseUrl } from '@src/routes/routes-config';
+console.log('baseUrl:', baseUrl);
 @connect(mapStateToProps, mapDispatchToProps)
 export default class SecurityLayout extends React.Component<SecurityLayoutProps, State> {
     constructor(props) {
@@ -103,7 +106,8 @@ export default class SecurityLayout extends React.Component<SecurityLayoutProps,
             this.setState({ hasPermission: true });
         } else {
             // TODO 需要做更细的颗粒度，控制跳转404|403|login
-            this.props.history.push('/user/login');
+            console.log('re:', baseUrl + '/user/login');
+            this.props.history.push(baseUrl + '/user/login');
         }
     }
 

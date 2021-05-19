@@ -51,15 +51,17 @@ export interface RouteConfigDeclaration {
     routes?: RouteConfigDeclaration[];
 }
 
+export const baseUrl = '/react-admin-tempate';
+
 export const routesConfig: RouteConfigDeclaration[] = [
     {
-        path: '/',
+        path: baseUrl,
         name: 'root-route',
         component: App,
         routes: [
             // 首页
             {
-                path: '/index',
+                path: baseUrl + '/index',
                 isDynamic: true,
                 isRedirect: false,
                 component: React.lazy(() =>
@@ -70,7 +72,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
                 ),
                 routes: [
                     {
-                        path: '/index/home',
+                        path: baseUrl + '/index/home',
                         isDynamic: true,
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "home" */ '@src/views/home'),
@@ -89,7 +91,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
             // },
             // user
             {
-                path: '/user',
+                path: baseUrl + '/user',
                 isDynamic: true,
                 isRedirect: false,
                 component: React.lazy(() =>
@@ -100,7 +102,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
                 ),
                 routes: [
                     {
-                        path: '/user/login',
+                        path: baseUrl + '/user/login',
                         isDynamic: true,
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "login" */ '@src/views/user/Login'),
