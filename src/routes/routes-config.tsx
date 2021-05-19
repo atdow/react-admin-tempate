@@ -51,7 +51,7 @@ export interface RouteConfigDeclaration {
     routes?: RouteConfigDeclaration[];
 }
 
-export const baseUrl = '/react-admin-tempate';
+export const baseUrl = '/react-admin-tempate'; // 路由baseUrl
 
 export const routesConfig: RouteConfigDeclaration[] = [
     {
@@ -112,7 +112,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
             },
             // dashboard
             {
-                path: '/dashboard',
+                path: baseUrl + '/dashboard',
                 isDynamic: true,
                 isRedirect: false,
                 component: React.lazy(() =>
@@ -123,7 +123,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
                 ),
                 routes: [
                     {
-                        path: '/dashboard/analysis',
+                        path: baseUrl + '/dashboard/analysis',
                         isDynamic: true,
                         component: React.lazy(() =>
                             import(
@@ -132,7 +132,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
                         ),
                     },
                     {
-                        path: '/dashboard/workplace',
+                        path: baseUrl + '/dashboard/workplace',
                         isDynamic: true,
                         component: React.lazy(() =>
                             import(
@@ -144,7 +144,7 @@ export const routesConfig: RouteConfigDeclaration[] = [
             },
             // exception
             {
-                path: '/exception',
+                path: baseUrl + '/exception',
                 isDynamic: true,
                 isRedirect: false,
                 component: React.lazy(() =>
@@ -155,21 +155,21 @@ export const routesConfig: RouteConfigDeclaration[] = [
                 ),
                 routes: [
                     {
-                        path: '/exception/403',
+                        path: baseUrl + '/exception/403',
                         isDynamic: true,
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "403" */ '@src/views/exception/403'),
                         ),
                     },
                     {
-                        path: '/exception/404',
+                        path: baseUrl + '/exception/404',
                         isDynamic: true,
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "404" */ '@src/views/exception/404'),
                         ),
                     },
                     {
-                        path: '/exception/500',
+                        path: baseUrl + '/exception/500',
                         isDynamic: true,
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "500" */ '@src/views/exception/500'),

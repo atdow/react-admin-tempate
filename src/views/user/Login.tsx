@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 10:47:33
  * @LastEditors: null
- * @LastEditTime: 2021-05-18 17:39:03
+ * @LastEditTime: 2021-05-19 14:51:03
  * @Description: file content
  */
 import React from 'react';
@@ -12,6 +12,7 @@ import { RouteComponentProps } from 'react-router';
 
 import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
+import { baseUrl } from '@src/routes/routes-config';
 
 import { Form, Input, Button } from 'antd';
 
@@ -89,7 +90,7 @@ export default class Login extends React.Component<LoginProps, isState> {
         this.props
             .login(values)
             .then(res => {
-                this.props.history.push('/index/home');
+                this.props.history.push(baseUrl + '/index/home');
             })
             .catch(err => {})
             .finally(() => {

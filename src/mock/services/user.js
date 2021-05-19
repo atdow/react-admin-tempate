@@ -1,6 +1,8 @@
 import Mock from 'mockjs2';
 import { builder } from '../util';
 
+import { baseUrl } from '@src/routes/routes-config';
+
 const info = options => {
     //console.log('options', options)
     const userInfo = {
@@ -878,7 +880,7 @@ const permission = options => {
     const menu = [
         // 首页
         {
-            name: 'index',
+            name: baseUrl + 'index',
             parentId: 0,
             id: 10000,
             meta: {
@@ -887,7 +889,7 @@ const permission = options => {
                 show: true,
             },
             component: 'Home',
-            path: '/index/home',
+            path: baseUrl + '/index/home',
         },
         // dashboard
         {
@@ -899,7 +901,7 @@ const permission = options => {
                 show: true,
             },
             component: 'Workplace',
-            path: '/dashboard/workplace',
+            path: baseUrl + '/dashboard/workplace',
         },
         {
             name: 'dashboard',
@@ -912,7 +914,7 @@ const permission = options => {
             },
             component: 'SecurityLayout',
             redirect: '/dashboard/workplace',
-            path: '/dashboard',
+            path: baseUrl + '/dashboard',
         },
         {
             name: 'monitor',
@@ -924,7 +926,7 @@ const permission = options => {
                 show: true,
             },
             component: 'monitor',
-            path: '/dashboard/monitor',
+            path: baseUrl + '/dashboard/monitor',
         },
         {
             name: 'Analysis',
@@ -935,7 +937,7 @@ const permission = options => {
                 show: true,
             },
             component: 'Analysis',
-            path: '/dashboard/analysis',
+            path: baseUrl + '/dashboard/analysis',
         },
         // {
         //     name: 'AnalysisChildren1',
@@ -968,7 +970,7 @@ const permission = options => {
                 show: true,
             },
             component: 'Tests',
-            path: '/dashboard/tests',
+            path: baseUrl + '/dashboard/tests',
         },
         // Exception
         {
@@ -982,7 +984,7 @@ const permission = options => {
             },
             component: 'SecurityLayout',
             redirect: '/exception',
-            path: '/exception',
+            path: baseUrl + '/exception',
         },
         {
             name: '403',
@@ -993,7 +995,7 @@ const permission = options => {
                 show: true,
             },
             component: '403',
-            path: '/exception/403',
+            path: baseUrl + '/exception/403',
         },
         {
             name: '404',
@@ -1004,7 +1006,7 @@ const permission = options => {
                 show: true,
             },
             component: '404',
-            path: '/exception/404',
+            path: baseUrl + '/exception/404',
         },
         {
             name: '500',
@@ -1015,7 +1017,7 @@ const permission = options => {
                 show: true,
             },
             component: '500',
-            path: '/exception/500',
+            path: baseUrl + '/exception/500',
         },
     ];
     const permission = {
