@@ -2,8 +2,8 @@
  * @Author: atdow
  * @Date: 2021-05-19 10:24:12
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 14:49:12
- * @Description: file content
+ * @LastEditTime: 2021-05-19 15:42:21
+ * @Description: 请根据实际情况修改publicPath
  */
 const webpack = require('webpack');
 const path = require('path');

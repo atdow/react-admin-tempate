@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-17 13:55:26
+ * @LastEditTime: 2021-05-19 16:21:01
  * @Description: file content
  */
 import React from 'react';
@@ -14,16 +14,11 @@ import { connect } from '@store/connect';
 import Logo from './Logo';
 import styles from './menu.module.less';
 
-import { Menu, Button } from 'antd';
-import {
-    AppstoreOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
-    PieChartOutlined,
-    DesktopOutlined,
-    ContainerOutlined,
-    MailOutlined,
-} from '@ant-design/icons';
+import { Menu } from 'antd';
+// fold
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+// menu-icon
+import * as Icon from '@ant-design/icons';
 
 const { SubMenu } = Menu;
 
@@ -126,6 +121,9 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         // console.log('menu:', menu);
         return formatData;
     }
+    renderIcon(icon) {
+        return '';
+    }
     // 渲染菜单树
     renderTree = data => {
         return data.map(item => {
@@ -134,7 +132,12 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                     return (
                         <Menu.Item
                             key={item.path}
-                            icon={item.meta?.icon ? <PieChartOutlined /> : ''}
+                            icon={
+                                item?.meta?.icon &&
+                                React.createElement(Icon[item.meta.icon], {
+                                    style: { fontSize: '16px', color: '#fff' },
+                                })
+                            }
                             onClick={this.menuClick.bind(this, item)}
                         >
                             <span>{item.meta.title}</span>
@@ -146,8 +149,10 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                     return (
                         <SubMenu
                             key={item.path}
-                            title={item.meta?.title}
-                            icon={item.meta?.icon ? <PieChartOutlined /> : ''}
+                            title={item?.meta?.title}
+                            icon={React.createElement(Icon[item.meta.icon], {
+                                style: { fontSize: '16px', color: '#fff' },
+                            })}
                         >
                             {this.renderTree(item.children)}
                         </SubMenu>

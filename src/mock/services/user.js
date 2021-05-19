@@ -475,7 +475,7 @@ const userNav = options => {
             parentId: 0,
             id: 19,
             meta: {
-                icon: 'home',
+                icon: 'HomeOutlined',
                 title: '首页',
                 show: true,
             },
@@ -537,7 +537,6 @@ const userNav = options => {
             },
             component: 'TestWork',
         },
-
         // form
         {
             name: 'form',
@@ -880,11 +879,11 @@ const permission = options => {
     const menu = [
         // 首页
         {
-            name: baseUrl + 'index',
+            name: 'index',
             parentId: 0,
             id: 10000,
             meta: {
-                icon: 'home',
+                icon: 'HomeOutlined',
                 title: '首页',
                 show: true,
             },
@@ -908,7 +907,7 @@ const permission = options => {
             parentId: 0,
             id: 1,
             meta: {
-                icon: 'dashboard',
+                icon: 'DashboardOutlined',
                 title: 'Dashboard',
                 show: true,
             },
@@ -978,7 +977,7 @@ const permission = options => {
             parentId: 0,
             id: 6,
             meta: {
-                icon: 'exception',
+                icon: 'WarningOutlined',
                 title: '异常页',
                 show: true,
             },
