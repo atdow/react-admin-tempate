@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[9],{507:function(n,e,r){"use strict";r.r(e),r.d(e,"default",(function(){return o}));var t=r(0),a=r.n(t);function o(n){return a.a.createElement("div",null,"/dashboard/workplace")}}}]);
