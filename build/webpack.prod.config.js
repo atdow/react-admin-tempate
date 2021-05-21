@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-19 10:24:12
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 17:08:02
+ * @LastEditTime: 2021-05-21 11:02:50
  * @Description: 请根据实际情况修改publicPath
  */
 const webpack = require('webpack');
@@ -16,6 +16,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const baseConfig = require('./webpack.base.config');
 const common = require('./common');
+const { publicPath } = require("./config")
+
 const styleLoaders = common.getStyleLoaders({
     cssModule: true,
 });
@@ -27,7 +29,7 @@ module.exports = smart(baseConfig, {
         path: path.resolve('dist'),
         filename: 'js/[name].[contenthash:8].bundle.js',
         chunkFilename: 'js/[name].[contenthash:8].chunk.js',
-        publicPath: '/react-admin-tempate/', // 发布之前需要修改对应的publicPath
+        publicPath: publicPath, // 发布之前需要修改对应的publicPath
     },
     module: {
         rules: [].concat(styleLoaders),

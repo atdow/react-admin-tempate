@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-11 15:23:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-11 15:40:50
+ * @LastEditTime: 2021-05-21 11:01:55
  * @Description: file content
  */
 const webpack = require('webpack');
@@ -13,6 +13,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 // const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
 // const manifestJson = require('../public/dll/dllLibs.manifest.json');
 const common = require('./common');
+const {publicPath} = require("./config")
 
 const styleLoaders = common.getStyleLoaders({
     cssModule: true,
