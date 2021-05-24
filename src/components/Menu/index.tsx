@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 16:41:34
+ * @LastEditTime: 2021-05-24 16:14:27
  * @Description: file content
  */
 import React from 'react';
@@ -86,6 +86,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         this.init(nextProps);
     }
     init(props) {
+        // console.log('props:', props);
         const { menu = [] } = props;
         let formatMenu = this.menuDataFormat(menu);
         const pathname = this.props.history?.location?.pathname;

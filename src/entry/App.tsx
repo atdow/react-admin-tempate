@@ -2,11 +2,12 @@
  * @Author: atdow
  * @Date: 2021-05-11 15:38:06
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 14:30:17
+ * @LastEditTime: 2021-05-24 16:34:53
  * @Description: file content
  */
 import './App.css';
 import '../style/reset.less';
+import '../style/global.less';
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import GlobalContext from '@common/global-context';

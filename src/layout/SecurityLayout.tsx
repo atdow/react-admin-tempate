@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 18:09:18
  * @LastEditors: null
- * @LastEditTime: 2021-05-19 14:50:50
+ * @LastEditTime: 2021-05-24 16:18:27
  * @Description: file content
  */
 import styles from './userlayout.module.less';
@@ -19,6 +19,7 @@ import { baseUrl } from '@src/routes/routes-config';
 
 import Menu from '@src/components/Menu';
 import GlobalHeader from '@src/components/GlobalHeader';
+import TagsView from '@src/components/TagsView';
 
 function mapStateToProps(state: RootState) {
     const {
@@ -120,6 +121,7 @@ export default class SecurityLayout extends React.Component<SecurityLayoutProps,
                         <Menu history={history} />
                         <div className="s-content">
                             <GlobalHeader history={history} />
+                            <TagsView history={history} />
                             <div className="s-content-route">
                                 <Switch>{routes}</Switch>
                             </div>
