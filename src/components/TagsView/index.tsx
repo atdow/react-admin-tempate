@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-24 16:11:31
  * @LastEditors: null
- * @LastEditTime: 2021-05-24 18:18:54
+ * @LastEditTime: 2021-05-26 12:05:49
  * @Description: file content
  */
 import React from 'react';
@@ -12,6 +12,7 @@ import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
 
 import styles from './tagsview.module.less';
+import { CloseCircleOutlined } from '@ant-design/icons';
 
 function mapStateToProps(state: RootState) {
     const {
@@ -74,6 +75,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
             tagsViewData: tagsviewDataFormat,
         });
         // console.log('tagsviewDataFormat:', tagsviewDataFormat);
+        // console.log('pathname:', pathname);
     }
     componentDidMount() {
         // const { menu, history } = this.props;
@@ -124,11 +126,40 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         });
         this.setState({ tagsViewData: tagsViewData });
     }
+    tagsviewClick(item, index) {
+        // console.log('tagsviewClick:', item, index);
+        let currentPath = this.props.history.location.pathname;
+        let tagsViewPath = item.path;
+        currentPath !== tagsViewPath && this.props.history.push(item.path);
+    }
+    closeTag(e, item, index) {
+        e.stopPropagation(); // 阻止冒泡
+        // console.log('this.props.tagsviewData:', this.props.tagsviewData);
+        // 更新tagsViewData数据
+        let tagsviewData = this.props.tagsviewData;
+        // 只有一个的时候，是首页，不能删除(这里可要可不要，因为第一个已经不渲染close了)
+        if (tagsviewData.length === 1) {
+            return;
+        }
+        tagsviewData.splice(index, 1);
+        // console.log('tagsviewData:', tagsviewData);
+        this.props.setTagsviewData(tagsviewData);
+        this.setState({ tagsViewData: tagsviewData });
+        // 路由控制
+        let currentPath = this.props.history.location.pathname;
+        let tagsViewPath = item.path;
+        // 如果当前页面就是tagsview高亮的那个，就需要往前切换页面
+        if (currentPath === tagsViewPath) {
+            if (tagsviewData.length > 0) {
+                this.props.history.push(tagsviewData[tagsviewData.length - 1].path);
+            }
+        }
+    }
     render() {
         return (
             <div className={styles.tagsview}>
                 <ul className={styles.tagsviewContent}>
-                    {this.state.tagsViewData.map((item, key) => {
+                    {this.state.tagsViewData.map((item, index) => {
                         return (
                             <li
                                 className={
@@ -136,8 +167,15 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                                         ? styles.tagsviewActive
                                         : ''
                                 }
+                                onClick={this.tagsviewClick.bind(this, item, index)}
                             >
-                                {item.meta.title}
+                                <span className="margin-right-5">{item.meta.title}</span>
+                                {index > 0 && (
+                                    <CloseCircleOutlined
+                                        className={styles.close}
+                                        onClick={e => this.closeTag(e, item, index)}
+                                    />
+                                )}
                             </li>
                         );
                     })}

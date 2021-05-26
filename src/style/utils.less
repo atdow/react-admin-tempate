@@ -1,0 +1,29 @@
+// 全局的 margin-* 样式
+.loopMargin(@i) when (@i <9) {
+    @name: (5 * @i);
+    @val: (5px * @i);
+
+    .margin-top-@{name} {
+        margin-top: @val;
+    }
+
+    .margin-bottom-@{name} {
+        margin-bottom: @val !important;
+    }
+
+    .margin-left-@{name} {
+        margin-left: @val;
+    }
+
+    .margin-right-@{name} {
+        margin-right: @val !important;
+    }
+
+    .margin-@{name} {
+        margin: @val;
+    }
+
+    .loopMargin(@i+1);
+}
+
+.loopMargin(0);
