@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-26 14:56:35
  * @LastEditors: null
- * @LastEditTime: 2021-05-26 17:08:28
+ * @LastEditTime: 2021-05-26 17:46:13
  * @Description: file content
  */
 
@@ -12,10 +12,12 @@ import { Switch, RouteComponentProps } from 'react-router-dom';
 import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
 
-import { Form, Row, Col, Input, Button } from 'antd';
+import { Form, Row, Col, Input, Button, Tag, Space } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 import STable from '@src/components/STable';
+
+import { getSearchList } from '@src/services/api/searchList';
 
 function mapStateToProps(state: RootState) {
     const {
@@ -58,6 +60,7 @@ type State = {
     expand: boolean;
     // setExpand: any;
     form?: any;
+    columns?: any;
 };
 const layout = {
     labelCol: { span: 8 },
@@ -71,6 +74,54 @@ export default class SearchList extends React.Component<SearchListProps, State> 
         this.formRef = React.createRef();
         this.state = {
             expand: false,
+            columns: [
+                {
+                    title: 'Name',
+                    dataIndex: 'name',
+                    key: 'name',
+                    render: text => <a>{text}</a>,
+                },
+                {
+                    title: 'Age',
+                    dataIndex: 'age',
+                    key: 'age',
+                },
+                {
+                    title: 'Address',
+                    dataIndex: 'address',
+                    key: 'address',
+                },
+                {
+                    title: 'Tags',
+                    key: 'tags',
+                    dataIndex: 'tags',
+                    render: tags => (
+                        <>
+                            {tags.map(tag => {
+                                let color = tag.length > 5 ? 'geekblue' : 'green';
+                                if (tag === 'loser') {
+                                    color = 'volcano';
+                                }
+                                return (
+                                    <Tag color={color} key={tag}>
+                                        {tag.toUpperCase()}
+                                    </Tag>
+                                );
+                            })}
+                        </>
+                    ),
+                },
+                {
+                    title: 'Action',
+                    key: 'action',
+                    render: (text, record) => (
+                        <Space size="middle">
+                            <a>Invite {record.name}</a>
+                            <a>Delete</a>
+                        </Space>
+                    ),
+                },
+            ],
         };
     }
     componentDidMount() {
@@ -207,7 +258,7 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                         </Col>
                     </Row>
                 </Form>
-                <STable />
+                <STable columns={this.state.columns} dataSource={getSearchList} />
             </div>
         );
     }
