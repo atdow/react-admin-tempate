@@ -80,15 +80,6 @@ export const routesConfig: RouteConfigDeclaration[] = [
                     },
                 ],
             },
-            // // 首页
-            // {
-            //     path: '/index',
-            //     isDynamic: true,
-            //     isRedirect: false,
-            //     component: React.lazy(() =>
-            //         import(/* webpackChunkName: "home" */ '@src/views/home'),
-            //     ),
-            // },
             // user
             {
                 path: '/user',
@@ -173,6 +164,29 @@ export const routesConfig: RouteConfigDeclaration[] = [
                         isDynamic: true,
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "500" */ '@src/views/exception/500'),
+                        ),
+                    },
+                ],
+            },
+            // list
+            {
+                path: '/list',
+                isDynamic: true,
+                isRedirect: false,
+                component: React.lazy(() =>
+                    import(
+                        /* webpackChunkName: "list" */
+                        '@src/layout/SecurityLayout'
+                    ),
+                ),
+                routes: [
+                    {
+                        path: '/list/searchList',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(
+                                /* webpackChunkName: "searchList" */ '@src/views/list/searchList'
+                            ),
                         ),
                     },
                 ],

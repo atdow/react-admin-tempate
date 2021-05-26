@@ -19,14 +19,22 @@
             height: 26px;
             margin-left: 5px;
             cursor: pointer;
+
             &.tagsview-active {
                 background-color: rgb(24, 144, 255);
                 border-color: rgb(24, 144, 255);
                 color: white;
+                .close {
+                    color: white;
+                }
             }
             .close {
-                color: #ccc;
+                color: black;
+                border-radius: 12px;
+                font-size: 8px;
+                padding: 3px;
                 &:hover {
+                    background: #ccc;
                     color: white;
                 }
             }

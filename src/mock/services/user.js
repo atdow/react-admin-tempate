@@ -1018,6 +1018,30 @@ const permission = options => {
             component: '500',
             path: baseUrl + '/exception/500',
         },
+        // list
+        {
+            name: 'list',
+            parentId: 0,
+            id: 40000,
+            meta: {
+                title: '列表页',
+                show: true,
+                icon: 'TableOutlined',
+            },
+            component: 'SecurityLayout',
+            path: baseUrl + '/list',
+        },
+        {
+            name: 'searchList',
+            parentId: 40000,
+            id: 40001,
+            meta: {
+                title: '查询列表',
+                show: true,
+            },
+            component: 'searchList',
+            path: baseUrl + '/list/searchList',
+        },
     ];
     const permission = {
         Analysis: true,

@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-24 16:11:31
  * @LastEditors: null
- * @LastEditTime: 2021-05-26 12:05:49
+ * @LastEditTime: 2021-05-26 14:05:42
  * @Description: file content
  */
 import React from 'react';
@@ -12,7 +12,7 @@ import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
 
 import styles from './tagsview.module.less';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 
 function mapStateToProps(state: RootState) {
     const {
@@ -171,7 +171,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                             >
                                 <span className="margin-right-5">{item.meta.title}</span>
                                 {index > 0 && (
-                                    <CloseCircleOutlined
+                                    <CloseOutlined
                                         className={styles.close}
                                         onClick={e => this.closeTag(e, item, index)}
                                     />

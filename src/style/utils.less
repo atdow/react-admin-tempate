@@ -27,3 +27,37 @@
 }
 
 .loopMargin(0);
+
+// 全局的 padding-* 样式
+.loopPadding(@i) when (@i <9) {
+    @name: (5 * @i);
+    @val: (5px * @i);
+
+    .padding-top-@{name} {
+        padding-top: @val;
+    }
+
+    .padding-bottom-@{name} {
+        padding-bottom: @val !important;
+    }
+
+    .padding-left-@{name} {
+        padding-left: @val;
+    }
+
+    .padding-right-@{name} {
+        padding-right: @val !important;
+    }
+
+    .padding-@{name} {
+        padding: @val;
+    }
+
+    .loopPadding(@i+1);
+}
+
+.loopPadding(0);
+
+.backround-white {
+    background: white;
+}
