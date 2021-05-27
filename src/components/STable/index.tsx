@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-26 17:07:01
  * @LastEditors: null
- * @LastEditTime: 2021-05-27 17:01:45
+ * @LastEditTime: 2021-05-27 17:08:16
  * @Description: file content
  */
 
@@ -39,8 +39,8 @@ const Stable: React.FC<Props> = forwardRef(
 
         useImperativeHandle(ref, () => ({
             // 暴露给父组件的方法
-            request: newVal => {
-                requestData(newVal);
+            request: value => {
+                requestData(value);
             },
         }));
 
