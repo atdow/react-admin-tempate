@@ -1,9 +1,11 @@
 .s-security-layout {
     display: flex;
     background: #f0f2f5;
+    height: 100vh;
 }
 .s-content {
     flex: 1;
+    overflow-y: auto;
 }
 .s-content-route {
     margin: 24px;

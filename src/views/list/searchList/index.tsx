@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-26 14:56:35
  * @LastEditors: null
- * @LastEditTime: 2021-05-26 17:46:13
+ * @LastEditTime: 2021-05-27 16:58:11
  * @Description: file content
  */
 
@@ -61,67 +61,90 @@ type State = {
     // setExpand: any;
     form?: any;
     columns?: any;
+    tableDataSource?: Function;
 };
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
 };
+
+const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: any) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    getCheckboxProps: (record: any) => ({
+        disabled: false, // Column configuration not to be checked
+        name: record.name,
+    }),
+};
 @connect(mapStateToProps, mapDispatchToProps)
 export default class SearchList extends React.Component<SearchListProps, State> {
     formRef: React.RefObject<any>;
+    tableRef: React.RefObject<any>;
     constructor(props) {
         super(props);
         this.formRef = React.createRef();
+        this.tableRef = React.createRef();
         this.state = {
             expand: false,
             columns: [
                 {
-                    title: 'Name',
+                    title: '规则名称',
                     dataIndex: 'name',
                     key: 'name',
-                    render: text => <a>{text}</a>,
                 },
                 {
-                    title: 'Age',
-                    dataIndex: 'age',
-                    key: 'age',
+                    title: '描述',
+                    dataIndex: 'description',
+                    key: 'description',
                 },
                 {
-                    title: 'Address',
-                    dataIndex: 'address',
-                    key: 'address',
+                    title: '服务调用次数',
+                    dataIndex: 'useCount',
+                    key: 'useCount',
                 },
                 {
-                    title: 'Tags',
-                    key: 'tags',
-                    dataIndex: 'tags',
-                    render: tags => (
-                        <>
-                            {tags.map(tag => {
-                                let color = tag.length > 5 ? 'geekblue' : 'green';
-                                if (tag === 'loser') {
-                                    color = 'volcano';
-                                }
-                                return (
-                                    <Tag color={color} key={tag}>
-                                        {tag.toUpperCase()}
-                                    </Tag>
-                                );
-                            })}
-                        </>
-                    ),
+                    title: '状态',
+                    key: 'status',
+                    render: (text, record) => <div>status</div>,
                 },
-                {
-                    title: 'Action',
-                    key: 'action',
-                    render: (text, record) => (
-                        <Space size="middle">
-                            <a>Invite {record.name}</a>
-                            <a>Delete</a>
-                        </Space>
-                    ),
-                },
+                // {
+                //     title: 'Tags',
+                //     key: 'tags',
+                //     dataIndex: 'tags',
+                //     render: tags => (
+                //         <>
+                //             {tags.map(tag => {
+                //                 let color = tag.length > 5 ? 'geekblue' : 'green';
+                //                 if (tag === 'loser') {
+                //                     color = 'volcano';
+                //                 }
+                //                 return (
+                //                     <Tag color={color} key={tag}>
+                //                         {tag.toUpperCase()}
+                //                     </Tag>
+                //                 );
+                //             })}
+                //         </>
+                //     ),
+                // },
+                // {
+                //     title: 'Action',
+                //     key: 'action',
+                //     render: (text, record) => (
+                //         <Space size="middle">
+                //             <a>Invite {record.name}</a>
+                //             <a>Delete</a>
+                //         </Space>
+                //     ),
+                // },
             ],
+            tableDataSource: parameter => {
+                return getSearchList(Object.assign(parameter, { test: 'test' })).then(res => {
+                    let data = res.data || {};
+                    return data.data;
+                });
+            },
         };
     }
     componentDidMount() {
@@ -219,7 +242,8 @@ export default class SearchList extends React.Component<SearchListProps, State> 
     }
 
     onFinish(values: any) {
-        console.log('values: ', values);
+        // console.log('values: ', values);
+        this.tableRef.current.request(true);
     }
 
     render() {
@@ -230,7 +254,7 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                     name="advanced_search"
                     {...layout}
                     className="ant-advanced-search-form"
-                    onFinish={this.onFinish}
+                    onFinish={this.onFinish.bind(this)}
                 >
                     <Row gutter={24}>{this.getFields()}</Row>
                     <Row>
@@ -258,7 +282,13 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                         </Col>
                     </Row>
                 </Form>
-                <STable columns={this.state.columns} dataSource={getSearchList} />
+                <STable
+                    ref={this.tableRef}
+                    columns={this.state.columns}
+                    dataSource={this.state.tableDataSource}
+                    className="margin-top-20"
+                    rowSelection={rowSelection}
+                />
             </div>
         );
     }

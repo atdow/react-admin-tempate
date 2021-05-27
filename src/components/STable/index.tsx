@@ -2,68 +2,103 @@
  * @Author: atdow
  * @Date: 2021-05-26 17:07:01
  * @LastEditors: null
- * @LastEditTime: 2021-05-26 18:16:50
+ * @LastEditTime: 2021-05-27 17:01:45
  * @Description: file content
  */
 
-import React, { useEffect, MouseEvent } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle, MouseEvent } from 'react';
 import { Table } from 'antd';
+import { ColumnsType } from 'antd/es/table';
 
 type Props = {
-    columns?: Array<any>;
+    columns: ColumnsType<any>;
     dataSource: Function;
+    showSizeChanger?: Boolean;
+    className?: string;
+    [key: string]: any;
     // onClick(e: MouseEvent<HTMLElement>): void
 };
-const Stable: React.FC<Props> = ({ columns, dataSource }): JSX.Element => {
-    const data = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        },
-    ];
-
-    useEffect(() => {
-        dataSource({}).then(res => {
-            console.log('res:', res);
+const Stable: React.FC<Props> = forwardRef(
+    ({ columns, dataSource, showSizeChanger, className, ...arg }, ref): JSX.Element => {
+        // table数据
+        const [tableData, setTableData] = useState([]);
+        const [loading, setLoading] = useState(false);
+        // 请求参数
+        const [queryParam, setQueryParam] = useState({
+            pageNo: 1,
+            pageSize: 10,
         });
-    }, []);
+        // 分页参数
+        const [paginationData, setPaginationData] = useState({
+            current: 1,
+            total: 0,
+            defaultPageSize: 10,
+            pageSizeOptions: ['10', '20', '50', '100'],
+            showSizeChanger: showSizeChanger,
+        });
 
-    function change(pagination, filters, sorte) {
-        console.log('pagination, filters, sorte:', pagination, filters, sorte);
-    }
+        useImperativeHandle(ref, () => ({
+            // 暴露给父组件的方法
+            request: newVal => {
+                requestData(newVal);
+            },
+        }));
 
-    return (
-        <div>
-            <Table
-                columns={columns}
-                dataSource={data}
-                onChange={change}
-                bordered
-                pagination={{
-                    total: 600,
-                    defaultPageSize: 2,
-                    pageSizeOptions: ['2', '10', '20', '50', '100'],
-                }}
-            />
-        </div>
-    );
-};
+        useEffect(() => {
+            requestData();
+        }, []);
+
+        function requestData(refresh = false) {
+            setLoading(true);
+            if (refresh) {
+                queryParam.pageNo = 1;
+                paginationData.current = 1;
+                setPaginationData[paginationData as any];
+            }
+            dataSource(queryParam)
+                .then(res => {
+                    paginationData.total = res.totalCount || 0;
+                    setPaginationData(paginationData);
+                    let tableData = res.data || [];
+                    setTableData(tableData);
+                })
+                .catch(err => {})
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+
+        function change(pagination, filters, sorte) {
+            // 改变pageSize时，回退到第一页
+            if (queryParam.pageSize !== pagination.pageSize) {
+                queryParam.pageSize = pagination.pageSize;
+                // 回退第一页
+                queryParam.pageNo = 1;
+                paginationData.current = 1;
+            } else {
+                queryParam.pageSize = pagination.pageSize;
+                queryParam.pageNo = pagination.current;
+                paginationData.current = pagination.current;
+            }
+            requestData();
+            setPaginationData[paginationData as any];
+        }
+
+        return (
+            <div>
+                <Table
+                    columns={columns}
+                    dataSource={tableData}
+                    onChange={change}
+                    bordered
+                    loading={loading}
+                    pagination={paginationData as any}
+                    className={className}
+                    {...arg}
+                />
+            </div>
+        );
+    },
+);
 
 export default Stable;
