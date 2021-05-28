@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-19 10:24:12
  * @LastEditors: null
- * @LastEditTime: 2021-05-21 11:02:50
+ * @LastEditTime: 2021-05-28 10:37:10
  * @Description: 请根据实际情况修改publicPath
  */
 const webpack = require('webpack');
@@ -45,6 +45,11 @@ module.exports = smart(baseConfig, {
             {
                 from: 'src/assets/fonts/',
                 to: 'fonts/',
+            },
+            // 这里只是用于github
+            {
+                from: '404.html',
+                to: '',
             },
         ]),
         // 用于忽略某些特定的模块，让 webpack 不把这些指定的模块打包进去
