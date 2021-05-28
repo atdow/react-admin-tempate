@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-26 17:07:01
  * @LastEditors: null
- * @LastEditTime: 2021-05-27 17:08:16
+ * @LastEditTime: 2021-05-28 14:06:05
  * @Description: file content
  */
 
@@ -57,6 +57,19 @@ const Stable: React.FC<Props> = forwardRef(
             }
             dataSource(queryParam)
                 .then(res => {
+                    // 为防止删除数据后导致页面当前页面数据长度为 0 ,自动翻页到上一页
+                    if (
+                        res.data.length === 0 &&
+                        this.showSizeChanger &&
+                        paginationData.current > 1
+                    ) {
+                        paginationData.current--;
+                        setPaginationData(paginationData);
+                        queryParam.pageNo--;
+                        setQueryParam(queryParam);
+                        requestData();
+                        return;
+                    }
                     paginationData.total = res.totalCount || 0;
                     setPaginationData(paginationData);
                     let tableData = res.data || [];

@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-24 16:11:31
  * @LastEditors: null
- * @LastEditTime: 2021-05-26 14:05:42
+ * @LastEditTime: 2021-05-28 15:52:16
  * @Description: file content
  */
 import React from 'react';
@@ -57,7 +57,7 @@ type State = {
 };
 let unlisten;
 @connect(mapStateToProps, mapDispatchToProps)
-export default class SMenu extends React.Component<SecurityLayoutProps, State> {
+export default class TagsView extends React.Component<SecurityLayoutProps, State> {
     constructor(props) {
         super(props);
         this.state = {
@@ -168,6 +168,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                                         : ''
                                 }
                                 onClick={this.tagsviewClick.bind(this, item, index)}
+                                key={index}
                             >
                                 <span className="margin-right-5">{item.meta.title}</span>
                                 {index > 0 && (

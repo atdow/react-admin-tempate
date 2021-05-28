@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-26 14:56:35
  * @LastEditors: null
- * @LastEditTime: 2021-05-27 16:58:11
+ * @LastEditTime: 2021-05-28 15:55:39
  * @Description: file content
  */
 
@@ -20,17 +20,18 @@ import STable from '@src/components/STable';
 import { getSearchList } from '@src/services/api/searchList';
 
 function mapStateToProps(state: RootState) {
-    const {
-        user: { menu },
-        tagsview: { tagsviewData },
-    } = state;
-    return { menu, tagsviewData };
+    // const {
+    //     tagsview: { tagsviewData },
+    // } = state;
+    return {
+        // tagsviewData
+    };
 }
 
 function mapDispatchToProps(dispatch: RootDispatch) {
-    const { tagsview } = dispatch;
+    // const { tagsview } = dispatch;
     return {
-        setTagsviewData: tagsview.setTagsviewData,
+        // setTagsviewData: tagsview.setTagsviewData,
     };
 }
 
@@ -61,6 +62,7 @@ type State = {
     // setExpand: any;
     form?: any;
     columns?: any;
+    formValue: Object;
     tableDataSource?: Function;
 };
 const layout = {
@@ -139,8 +141,20 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                 //     ),
                 // },
             ],
+            formValue: {},
             tableDataSource: parameter => {
-                return getSearchList(Object.assign(parameter, { test: 'test' })).then(res => {
+                // let formValue = {};
+                // this.formRef.current
+                //     .validateFields()
+                //     .then(values => {
+                //         console.log('values:', values);
+                //         formValue = values;
+                //     })
+                //     .catch(errorInfo => {
+                //         console.log('errorInfo :', errorInfo);
+                //     });
+                // console.log('formValue:', this.state.formValue);
+                return getSearchList(Object.assign(parameter, this.state.formValue)).then(res => {
                     let data = res.data || {};
                     return data.data;
                 });
@@ -242,9 +256,11 @@ export default class SearchList extends React.Component<SearchListProps, State> 
     }
 
     onFinish(values: any) {
-        // console.log('values: ', values);
-        this.tableRef.current.request(true);
+        this.setState({ formValue: values }); // 这个是没有必要的更新，只是为了维护数据，可以提升到外部变量
+        this.tableRef.current.request(true); // 请求到第一页;
+        // this.tableRef.current.request(); // 请求当前页，相当于刷新
     }
+    onFinishFailed({ values, errorFields, outOfDate }) {}
 
     render() {
         return (
@@ -255,6 +271,7 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                     {...layout}
                     className="ant-advanced-search-form"
                     onFinish={this.onFinish.bind(this)}
+                    onFinishFailed={this.onFinishFailed}
                 >
                     <Row gutter={24}>{this.getFields()}</Row>
                     <Row>

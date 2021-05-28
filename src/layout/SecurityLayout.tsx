@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-12 18:09:18
  * @LastEditors: null
- * @LastEditTime: 2021-05-24 16:18:27
+ * @LastEditTime: 2021-05-28 15:53:45
  * @Description: file content
  */
 import styles from './userlayout.module.less';
@@ -62,7 +62,6 @@ type State = {
     hasPermission: boolean;
 };
 
-console.log('baseUrl:', baseUrl);
 @connect(mapStateToProps, mapDispatchToProps)
 export default class SecurityLayout extends React.Component<SecurityLayoutProps, State> {
     constructor(props) {
