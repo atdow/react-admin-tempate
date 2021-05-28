@@ -2,11 +2,11 @@
  * @Author: atdow
  * @Date: 2021-05-26 17:07:01
  * @LastEditors: null
- * @LastEditTime: 2021-05-28 14:06:05
+ * @LastEditTime: 2021-05-28 16:21:57
  * @Description: file content
  */
 
-import React, { useEffect, useState, forwardRef, useImperativeHandle, MouseEvent } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
@@ -16,7 +16,6 @@ type Props = {
     showSizeChanger?: Boolean;
     className?: string;
     [key: string]: any;
-    // onClick(e: MouseEvent<HTMLElement>): void
 };
 const Stable: React.FC<Props> = forwardRef(
     ({ columns, dataSource, showSizeChanger, className, ...arg }, ref): JSX.Element => {

@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-26 14:56:35
  * @LastEditors: null
- * @LastEditTime: 2021-05-28 15:55:39
+ * @LastEditTime: 2021-05-28 16:24:57
  * @Description: file content
  */
 
@@ -12,8 +12,9 @@ import { Switch, RouteComponentProps } from 'react-router-dom';
 import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
 
-import { Form, Row, Col, Input, Button, Tag, Space } from 'antd';
+import { Form, Row, Col, Input, Button } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { ColumnsType } from 'antd/es/table';
 
 import STable from '@src/components/STable';
 
@@ -59,11 +60,9 @@ type SearchListProps = RouterProps &
 
 type State = {
     expand: boolean;
-    // setExpand: any;
-    form?: any;
-    columns?: any;
+    columns: ColumnsType<any>;
     formValue: Object;
-    tableDataSource?: Function;
+    tableDataSource: Function;
 };
 const layout = {
     labelCol: { span: 8 },
@@ -162,7 +161,7 @@ export default class SearchList extends React.Component<SearchListProps, State> 
         };
     }
     componentDidMount() {
-        //  console.log('this.formRef:', this.formRef);
+        // console.log('this.formRef:', this.formRef);
     }
 
     setExpand(value: boolean) {
