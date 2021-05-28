@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-19 10:24:12
  * @LastEditors: null
- * @LastEditTime: 2021-05-28 10:37:10
+ * @LastEditTime: 2021-05-28 10:43:22
  * @Description: 请根据实际情况修改publicPath
  */
 const webpack = require('webpack');
@@ -46,7 +46,7 @@ module.exports = smart(baseConfig, {
                 from: 'src/assets/fonts/',
                 to: 'fonts/',
             },
-            // 这里只是用于github
+            // 这里只是用于github pages
             {
                 from: '404.html',
                 to: '',

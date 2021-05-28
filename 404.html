@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-27 17:51:55
  * @LastEditors: null
- * @LastEditTime: 2021-05-27 18:00:14
+ * @LastEditTime: 2021-05-28 10:44:04
  * @Description: file content
 -->
 
@@ -30,7 +30,7 @@
             // https://username.github.io/repo-name/one/two?a=b&c=d#qwe becomes
             // https://username.github.io/repo-name/?/one/two&a=b~and~c=d#qwe
             // Otherwise, leave pathSegmentsToKeep as 0.
-            var pathPrefix = true;
+            var pathPrefix = true; // 如果你的页面不是使用自定义域名，而是xxx.github.io/xxx，则应该设置为true，不然就为false
             var l = window.location;
             l.replace(
                 l.protocol +
