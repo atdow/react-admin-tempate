@@ -46,6 +46,10 @@ export interface RouteConfigDeclaration {
      */
     component: any;
     /**
+     * 路由附属信息
+     */
+    meta?: Object;
+    /**
      * 子路由
      */
     routes?: RouteConfigDeclaration[];
@@ -77,6 +81,9 @@ export const routesConfig: RouteConfigDeclaration[] = [
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "home" */ '@src/views/home'),
                         ),
+                        meta: {
+                            title: '首页',
+                        },
                     },
                 ],
             },
@@ -98,6 +105,9 @@ export const routesConfig: RouteConfigDeclaration[] = [
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "login" */ '@src/views/user/Login'),
                         ),
+                        meta: {
+                            title: '登录',
+                        },
                     },
                 ],
             },
@@ -121,6 +131,9 @@ export const routesConfig: RouteConfigDeclaration[] = [
                                 /* webpackChunkName: "analysis" */ '@src/views/dashboard/Analysis'
                             ),
                         ),
+                        meta: {
+                            title: '分析页',
+                        },
                     },
                     {
                         path: '/dashboard/workplace',
@@ -130,6 +143,9 @@ export const routesConfig: RouteConfigDeclaration[] = [
                                 /* webpackChunkName: "workplace" */ '@src/views/dashboard/Workplace'
                             ),
                         ),
+                        meta: {
+                            title: '工作台',
+                        },
                     },
                 ],
             },
@@ -151,6 +167,9 @@ export const routesConfig: RouteConfigDeclaration[] = [
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "403" */ '@src/views/exception/403'),
                         ),
+                        meta: {
+                            title: '403',
+                        },
                     },
                     {
                         path: '/exception/404',
@@ -158,6 +177,9 @@ export const routesConfig: RouteConfigDeclaration[] = [
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "404" */ '@src/views/exception/404'),
                         ),
+                        meta: {
+                            title: '404',
+                        },
                     },
                     {
                         path: '/exception/500',
@@ -165,6 +187,9 @@ export const routesConfig: RouteConfigDeclaration[] = [
                         component: React.lazy(() =>
                             import(/* webpackChunkName: "500" */ '@src/views/exception/500'),
                         ),
+                        meta: {
+                            title: '500',
+                        },
                     },
                 ],
             },
@@ -188,6 +213,9 @@ export const routesConfig: RouteConfigDeclaration[] = [
                                 /* webpackChunkName: "searchList" */ '@src/views/list/searchList'
                             ),
                         ),
+                        meta: {
+                            title: '查询列表',
+                        },
                     },
                 ],
             },

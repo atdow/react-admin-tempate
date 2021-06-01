@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-11 15:38:06
  * @LastEditors: null
- * @LastEditTime: 2021-05-24 16:34:53
+ * @LastEditTime: 2021-06-01 15:23:56
  * @Description: file content
  */
 import './App.css';
@@ -15,20 +15,49 @@ import { renderAllRoutes } from '@routes/route-loader';
 import { connect } from 'react-redux';
 // import * as utils from "@src/utils";
 
-import GlobalHeader from '@src/components/GlobalHeader';
-import Menu from '@src/components/Menu';
-
+// 实现动态title
+import { Helmet } from 'react-helmet';
 import history from '@store/history';
+import { routesConfig } from '@routes/routes-config';
 
 interface AppProps {
     routes?: any;
 }
-class App extends React.PureComponent<AppProps> {
+type State = {
+    title: string;
+};
+let unlisten;
+class App extends React.PureComponent<AppProps, State> {
     globalContext;
 
     constructor(props) {
         super(props);
         this.globalContext = {};
+        this.state = {
+            title: '',
+        };
+    }
+    componentDidMount() {
+        let pathname = history.location.pathname;
+        this.pathnameToRouteName(pathname, routesConfig);
+        unlisten = history.listen((location, action) => {
+            pathname = location.pathname;
+            this.pathnameToRouteName(pathname, routesConfig);
+        });
+    }
+    pathnameToRouteName(pathname, routes) {
+        for (let i = 0; i < routes.length; i++) {
+            if (routes[i].path == pathname) {
+                this.setState({ title: routes[i].meta?.title });
+                break;
+            }
+            if (routes[i].routes?.length > 0) {
+                this.pathnameToRouteName(pathname, routes[i].routes);
+            }
+        }
+    }
+    componentWillUnmount() {
+        unlisten(); // 停止侦听
     }
 
     render() {
@@ -36,6 +65,11 @@ class App extends React.PureComponent<AppProps> {
         // console.log('routes:', routes);
         return (
             <div className="app">
+                <Helmet>
+                    <title>{this.state.title}</title>
+                    <meta name="description" content="Todos!" />
+                    <meta name="theme-color" content="#008f68" />
+                </Helmet>
                 {/* <Menu history={history} /> */}
                 <div className="s-content">
                     {/* <GlobalHeader history={history} /> */}
