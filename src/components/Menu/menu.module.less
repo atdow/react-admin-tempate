@@ -1,71 +1,61 @@
 @import '../../style/vars.less';
-// @menu-max-width: 256px;
-// @menu-min-width: 48px;
-//@menu-min-width: 128px;
 @backround: #001529;
 @transition: 0.3s;
 @paddingLeft: 16px;
+@prefix: ~'s-menu';
 
 /deep/.ant-menu-inline-collapsed:not(.ant-layout-sider-children > ul) {
-    width: 48px !important;
+    width: @menu-min-width !important;
 }
 
-.s-menu {
+.@{prefix} {
     background: @backround;
     transition: all @transition;
     height: 100vh;
     position: relative;
-}
-.s-menu-max {
-    width: @menu-max-width;
-}
-.s-menu-min {
-    width: @menu-min-width;
-    background: @backround;
-}
-.header {
-    height: 64px;
-    padding: 16px;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    .title {
-        display: inline-block;
-        height: 32px;
-        margin: 0 0 0 12px;
-        color: #fff;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 32px;
-        vertical-align: middle;
-        transition: all @transition;
+    &-max {
+        width: @menu-max-width;
+    }
+    &-min {
+        width: @menu-min-width;
+    }
+    &-header {
+        height: 64px;
+        padding: 16px;
         width: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        &-title {
+            display: inline-block;
+            height: 32px;
+            margin: 0 0 0 12px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 32px;
+            vertical-align: middle;
+            transition: all @transition;
+            width: 100%;
+        }
+        &-title-min {
+            width: 0;
+        }
     }
-    .title-min {
-        width: 0;
-    }
-}
-
-.s-menu-button {
-    position: absolute;
-    bottom: 20px;
-}
-
-.sFold {
-    position: absolute;
-    bottom: 0;
-    height: 40px;
-    // background: red;
-    width: 100%;
-    box-sizing: border-box;
-    padding-left: @paddingLeft;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    cursor: pointer;
-    color: #ccc;
-    &:hover {
-        color: white;
+    &-fold {
+        position: absolute;
+        bottom: 0;
+        height: 40px;
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: @paddingLeft;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        cursor: pointer;
+        color: #ccc;
+        &:hover {
+            color: white;
+        }
     }
 }

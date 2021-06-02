@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-06-02 14:04:06
+ * @LastEditTime: 2021-06-02 16:13:38
  * @Description: file content
  */
 import React from 'react';
@@ -13,6 +13,8 @@ import { connect } from '@store/connect';
 
 import Logo from './Logo';
 import styles from './menu.module.less';
+console.log('styles:', styles);
+const prefix = 'sMenu';
 
 import { Menu } from 'antd';
 // fold
@@ -197,17 +199,17 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
         return (
             <div
                 className={[
-                    styles.sMenu,
-                    this.state.collapsed ? styles.sMenuMin : styles.sMenuMax,
+                    styles[prefix],
+                    this.state.collapsed ? styles[`${prefix}Min`] : styles[`${prefix}Max`],
                 ].join(' ')}
             >
-                <div className={styles.header}>
+                <div className={styles.sMenuHeader}>
                     <Logo />
                     <h1
                         className={[
-                            styles.title,
+                            styles[`${prefix}HeaderTitle`],
                             'over-ellipsis-1',
-                            this.state.collapsed ? styles.titleMin : '',
+                            this.state.collapsed ? styles[`${prefix}HeaderTitleMin`] : '',
                         ].join(' ')}
                     >
                         react-admin
@@ -225,7 +227,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                             {this.renderTree(this.state.formatMenu)}
                         </Menu>
                     )}
-                    <div className={styles.sFold} onClick={this.toggleCollapsed}>
+                    <div className={styles[`${prefix}Fold`]} onClick={this.toggleCollapsed}>
                         {React.createElement(
                             this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                         )}
