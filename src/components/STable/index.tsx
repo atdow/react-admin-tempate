@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-26 17:07:01
  * @LastEditors: null
- * @LastEditTime: 2021-05-28 16:21:57
+ * @LastEditTime: 2021-06-02 17:59:33
  * @Description: file content
  */
 
@@ -15,10 +15,14 @@ type Props = {
     dataSource: Function;
     showSizeChanger?: Boolean;
     className?: string;
+    rowKey?: string | Function;
     [key: string]: any;
 };
 const Stable: React.FC<Props> = forwardRef(
-    ({ columns, dataSource, showSizeChanger, className, ...arg }, ref): JSX.Element => {
+    (
+        { columns, dataSource, showSizeChanger, className, rowKey = 'key', ...arg },
+        ref,
+    ): JSX.Element => {
         // table数据
         const [tableData, setTableData] = useState([]);
         const [loading, setLoading] = useState(false);

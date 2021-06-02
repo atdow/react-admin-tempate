@@ -219,6 +219,30 @@ export const routesConfig: RouteConfigDeclaration[] = [
                     },
                 ],
             },
+            // 权限管理
+            {
+                path: '/permission',
+                isDynamic: true,
+                isRedirect: false,
+                component: React.lazy(() =>
+                    import(
+                        /* webpackChunkName: "permission" */
+                        '@src/layout/SecurityLayout'
+                    ),
+                ),
+                routes: [
+                    {
+                        path: '/permission/role',
+                        isDynamic: true,
+                        component: React.lazy(() =>
+                            import(/* webpackChunkName: "role" */ '@src/views/permission/role'),
+                        ),
+                        meta: {
+                            title: '角色管理',
+                        },
+                    },
+                ],
+            },
         ],
     },
 ];

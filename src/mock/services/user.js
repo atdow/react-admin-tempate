@@ -893,8 +893,8 @@ const permission = options => {
         // dashboard
         {
             name: 'workplace',
-            parentId: 1,
-            id: 2,
+            parentId: 20000,
+            id: 20001,
             meta: {
                 title: '工作台',
                 show: true,
@@ -905,7 +905,7 @@ const permission = options => {
         {
             name: 'dashboard',
             parentId: 0,
-            id: 1,
+            id: 20000,
             meta: {
                 icon: 'DashboardOutlined',
                 title: 'Dashboard',
@@ -917,8 +917,8 @@ const permission = options => {
         },
         {
             name: 'monitor',
-            parentId: 1,
-            id: 3,
+            parentId: 20000,
+            id: 20002,
             meta: {
                 title: '监控页（外部）',
                 target: '_blank',
@@ -929,8 +929,8 @@ const permission = options => {
         },
         {
             name: 'Analysis',
-            parentId: 1,
-            id: 4,
+            parentId: 20000,
+            id: 20003,
             meta: {
                 title: '分析页',
                 show: true,
@@ -962,8 +962,8 @@ const permission = options => {
         // },
         {
             name: 'tests',
-            parentId: 1,
-            id: 5,
+            parentId: 20000,
+            id: 20004,
             meta: {
                 title: '测试功能',
                 show: true,
@@ -975,7 +975,7 @@ const permission = options => {
         {
             name: 'exception',
             parentId: 0,
-            id: 6,
+            id: 30000,
             meta: {
                 icon: 'WarningOutlined',
                 title: '异常页',
@@ -987,8 +987,8 @@ const permission = options => {
         },
         {
             name: '403',
-            parentId: 6,
-            id: 7,
+            parentId: 30000,
+            id: 30001,
             meta: {
                 title: '403',
                 show: true,
@@ -998,8 +998,8 @@ const permission = options => {
         },
         {
             name: '404',
-            parentId: 6,
-            id: 8,
+            parentId: 30000,
+            id: 30002,
             meta: {
                 title: '404',
                 show: true,
@@ -1009,8 +1009,8 @@ const permission = options => {
         },
         {
             name: '500',
-            parentId: 6,
-            id: 9,
+            parentId: 30000,
+            id: 30003,
             meta: {
                 title: '500',
                 show: true,
@@ -1041,6 +1041,30 @@ const permission = options => {
             },
             component: 'searchList',
             path: baseUrl + '/list/searchList',
+        },
+        // permission
+        {
+            name: 'permission',
+            parentId: 0,
+            id: 50000,
+            meta: {
+                title: '权限管理',
+                show: true,
+                icon: 'UserSwitchOutlined',
+            },
+            component: 'SecurityLayout',
+            path: baseUrl + '/permission',
+        },
+        {
+            name: 'role',
+            parentId: 50000,
+            id: 50001,
+            meta: {
+                title: '角色管理',
+                show: true,
+            },
+            component: 'role',
+            path: baseUrl + '/permission/role',
         },
     ];
     const permission = {

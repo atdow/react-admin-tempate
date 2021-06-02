@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2020-10-21 11:18:41
  * @LastEditors: null
- * @LastEditTime: 2021-05-26 17:42:51
+ * @LastEditTime: 2021-06-02 17:38:18
  * @Description: file content
  */
 import { isIE } from '@src/utils/util.js';
@@ -23,6 +23,7 @@ if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === tru
     require('./services/user');
     require('./services/login');
     require('./services/searchList');
+    require('./services/permission');
 
     Mock.setup({
         timeout: 800, // setter delay time

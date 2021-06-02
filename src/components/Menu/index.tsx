@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-06-02 16:13:38
+ * @LastEditTime: 2021-06-02 16:28:01
  * @Description: file content
  */
 import React from 'react';
@@ -13,7 +13,6 @@ import { connect } from '@store/connect';
 
 import Logo from './Logo';
 import styles from './menu.module.less';
-console.log('styles:', styles);
 const prefix = 'sMenu';
 
 import { Menu } from 'antd';
