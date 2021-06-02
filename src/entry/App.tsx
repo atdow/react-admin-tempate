@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-11 15:38:06
  * @LastEditors: null
- * @LastEditTime: 2021-06-01 15:23:56
+ * @LastEditTime: 2021-06-02 13:35:35
  * @Description: file content
  */
 import './App.css';
@@ -39,20 +39,20 @@ class App extends React.PureComponent<AppProps, State> {
     }
     componentDidMount() {
         let pathname = history.location.pathname;
-        this.pathnameToRouteName(pathname, routesConfig);
+        this.pathnameToRouteTitle(pathname, routesConfig);
         unlisten = history.listen((location, action) => {
             pathname = location.pathname;
-            this.pathnameToRouteName(pathname, routesConfig);
+            this.pathnameToRouteTitle(pathname, routesConfig);
         });
     }
-    pathnameToRouteName(pathname, routes) {
+    pathnameToRouteTitle(pathname, routes) {
         for (let i = 0; i < routes.length; i++) {
             if (routes[i].path == pathname) {
                 this.setState({ title: routes[i].meta?.title });
                 break;
             }
             if (routes[i].routes?.length > 0) {
-                this.pathnameToRouteName(pathname, routes[i].routes);
+                this.pathnameToRouteTitle(pathname, routes[i].routes);
             }
         }
     }

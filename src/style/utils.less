@@ -58,6 +58,20 @@
 
 .loopPadding(0);
 
+// 全局的 over-ellipsis-* 样式
+.overEllipsis(@i) when (@i <3) {
+    .over-ellipsis-@{i} {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: @i;
+        overflow: hidden;
+    }
+
+    .overEllipsis(@i+1);
+}
+
+.overEllipsis(1);
+
 .backround-white {
     background: white;
 }

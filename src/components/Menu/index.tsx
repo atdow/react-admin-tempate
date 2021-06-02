@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-05-28 15:52:47
+ * @LastEditTime: 2021-06-02 14:04:06
  * @Description: file content
  */
 import React from 'react';
@@ -204,9 +204,11 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
                 <div className={styles.header}>
                     <Logo />
                     <h1
-                        className={[styles.title, this.state.collapsed ? styles.titleMin : ''].join(
-                            ' ',
-                        )}
+                        className={[
+                            styles.title,
+                            'over-ellipsis-1',
+                            this.state.collapsed ? styles.titleMin : '',
+                        ].join(' ')}
                     >
                         react-admin
                     </h1>
