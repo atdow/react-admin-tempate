@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-05-13 16:32:00
  * @LastEditors: null
- * @LastEditTime: 2021-06-02 16:28:01
+ * @LastEditTime: 2021-06-03 17:02:58
  * @Description: file content
  */
 import React from 'react';
@@ -14,6 +14,7 @@ import { connect } from '@store/connect';
 import Logo from './Logo';
 import styles from './menu.module.less';
 const prefix = 'sMenu';
+import { menuDataToTreeData } from '@utils/perssion';
 
 import { Menu } from 'antd';
 // fold
@@ -89,7 +90,7 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
     init(props) {
         // console.log('props:', props);
         const { menu = [] } = props;
-        let formatMenu = this.menuDataFormat(menu);
+        let formatMenu = menuDataToTreeData(menu);
         const pathname = this.props.history?.location?.pathname;
         let defaultOpenKeys = this.calDefaultOpenKeys(menu, pathname);
         //let defaultOpenKeys = this.calDefaultOpenKeys(menu, '/dashboard/analysisChildren2');
@@ -98,30 +99,6 @@ export default class SMenu extends React.Component<SecurityLayoutProps, State> {
             defaultSelectedKeys: [pathname],
             defaultOpenKeys: defaultOpenKeys,
         });
-    }
-    // 菜单数据格式化
-    menuDataFormat(menu = []) {
-        let arr = JSON.parse(JSON.stringify(menu));
-        if (menu.length === 0) {
-            return [];
-        }
-        arr.forEach(arrItem1 => {
-            arr.forEach(arrItem2 => {
-                if (arrItem1.parentId === arrItem2.id) {
-                    if (!!arrItem2.children) {
-                        arrItem2.children.push(arrItem1);
-                    } else {
-                        arrItem2.children = [arrItem1];
-                    }
-                }
-            });
-        });
-        let formatData = arr.filter(item => {
-            return item.parentId === 0;
-        });
-        // console.log('formatData:', formatData);
-        // console.log('menu:', menu);
-        return formatData;
     }
     // 渲染icon
     renderIcon(icon) {

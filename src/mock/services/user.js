@@ -874,199 +874,198 @@ const userNav = options => {
     //console.log('json', json)
     return json;
 };
-
+export const menu = [
+    // 首页
+    {
+        name: 'index',
+        parentId: 0,
+        id: 10000,
+        meta: {
+            icon: 'HomeOutlined',
+            title: '首页',
+            show: true,
+        },
+        component: 'Home',
+        path: baseUrl + '/index/home',
+    },
+    // dashboard
+    {
+        name: 'workplace',
+        parentId: 20000,
+        id: 20001,
+        meta: {
+            title: '工作台',
+            show: true,
+        },
+        component: 'Workplace',
+        path: baseUrl + '/dashboard/workplace',
+    },
+    {
+        name: 'dashboard',
+        parentId: 0,
+        id: 20000,
+        meta: {
+            icon: 'DashboardOutlined',
+            title: 'Dashboard',
+            show: true,
+        },
+        component: 'SecurityLayout',
+        redirect: '/dashboard/workplace',
+        path: baseUrl + '/dashboard',
+    },
+    {
+        name: 'monitor',
+        parentId: 20000,
+        id: 20002,
+        meta: {
+            title: '监控页（外部）',
+            target: '_blank',
+            show: true,
+        },
+        component: 'monitor',
+        path: baseUrl + '/dashboard/monitor',
+    },
+    {
+        name: 'Analysis',
+        parentId: 20000,
+        id: 20003,
+        meta: {
+            title: '分析页',
+            show: true,
+        },
+        component: 'Analysis',
+        path: baseUrl + '/dashboard/analysis',
+    },
+    // {
+    //     name: 'AnalysisChildren1',
+    //     parentId: 4,
+    //     id: 6,
+    //     meta: {
+    //         title: '分析页子1',
+    //         show: true,
+    //     },
+    //     component: 'AnalysisChildren1',
+    //     path: '/dashboard/analysisChildren1',
+    // },
+    // {
+    //     name: 'AnalysisChildren2',
+    //     parentId: 4,
+    //     id: 7,
+    //     meta: {
+    //         title: '分析页子2',
+    //         show: true,
+    //     },
+    //     component: 'AnalysisChildren2',
+    //     path: '/dashboard/analysisChildren2',
+    // },
+    {
+        name: 'tests',
+        parentId: 20000,
+        id: 20004,
+        meta: {
+            title: '测试功能',
+            show: true,
+        },
+        component: 'Tests',
+        path: baseUrl + '/dashboard/tests',
+    },
+    // Exception
+    {
+        name: 'exception',
+        parentId: 0,
+        id: 30000,
+        meta: {
+            icon: 'WarningOutlined',
+            title: '异常页',
+            show: true,
+        },
+        component: 'SecurityLayout',
+        redirect: '/exception',
+        path: baseUrl + '/exception',
+    },
+    {
+        name: '403',
+        parentId: 30000,
+        id: 30001,
+        meta: {
+            title: '403',
+            show: true,
+        },
+        component: '403',
+        path: baseUrl + '/exception/403',
+    },
+    {
+        name: '404',
+        parentId: 30000,
+        id: 30002,
+        meta: {
+            title: '404',
+            show: true,
+        },
+        component: '404',
+        path: baseUrl + '/exception/404',
+    },
+    {
+        name: '500',
+        parentId: 30000,
+        id: 30003,
+        meta: {
+            title: '500',
+            show: true,
+        },
+        component: '500',
+        path: baseUrl + '/exception/500',
+    },
+    // list
+    {
+        name: 'list',
+        parentId: 0,
+        id: 40000,
+        meta: {
+            title: '列表页',
+            show: true,
+            icon: 'TableOutlined',
+        },
+        component: 'SecurityLayout',
+        path: baseUrl + '/list',
+    },
+    {
+        name: 'searchList',
+        parentId: 40000,
+        id: 40001,
+        meta: {
+            title: '查询列表',
+            show: true,
+        },
+        component: 'searchList',
+        path: baseUrl + '/list/searchList',
+    },
+    // permission
+    {
+        name: 'permission',
+        parentId: 0,
+        id: 50000,
+        meta: {
+            title: '权限管理',
+            show: true,
+            icon: 'UserSwitchOutlined',
+        },
+        component: 'SecurityLayout',
+        path: baseUrl + '/permission',
+    },
+    {
+        name: 'role',
+        parentId: 50000,
+        id: 50001,
+        meta: {
+            title: '角色管理',
+            show: true,
+        },
+        component: 'role',
+        path: baseUrl + '/permission/role',
+    },
+];
 const permission = options => {
-    const menu = [
-        // 首页
-        {
-            name: 'index',
-            parentId: 0,
-            id: 10000,
-            meta: {
-                icon: 'HomeOutlined',
-                title: '首页',
-                show: true,
-            },
-            component: 'Home',
-            path: baseUrl + '/index/home',
-        },
-        // dashboard
-        {
-            name: 'workplace',
-            parentId: 20000,
-            id: 20001,
-            meta: {
-                title: '工作台',
-                show: true,
-            },
-            component: 'Workplace',
-            path: baseUrl + '/dashboard/workplace',
-        },
-        {
-            name: 'dashboard',
-            parentId: 0,
-            id: 20000,
-            meta: {
-                icon: 'DashboardOutlined',
-                title: 'Dashboard',
-                show: true,
-            },
-            component: 'SecurityLayout',
-            redirect: '/dashboard/workplace',
-            path: baseUrl + '/dashboard',
-        },
-        {
-            name: 'monitor',
-            parentId: 20000,
-            id: 20002,
-            meta: {
-                title: '监控页（外部）',
-                target: '_blank',
-                show: true,
-            },
-            component: 'monitor',
-            path: baseUrl + '/dashboard/monitor',
-        },
-        {
-            name: 'Analysis',
-            parentId: 20000,
-            id: 20003,
-            meta: {
-                title: '分析页',
-                show: true,
-            },
-            component: 'Analysis',
-            path: baseUrl + '/dashboard/analysis',
-        },
-        // {
-        //     name: 'AnalysisChildren1',
-        //     parentId: 4,
-        //     id: 6,
-        //     meta: {
-        //         title: '分析页子1',
-        //         show: true,
-        //     },
-        //     component: 'AnalysisChildren1',
-        //     path: '/dashboard/analysisChildren1',
-        // },
-        // {
-        //     name: 'AnalysisChildren2',
-        //     parentId: 4,
-        //     id: 7,
-        //     meta: {
-        //         title: '分析页子2',
-        //         show: true,
-        //     },
-        //     component: 'AnalysisChildren2',
-        //     path: '/dashboard/analysisChildren2',
-        // },
-        {
-            name: 'tests',
-            parentId: 20000,
-            id: 20004,
-            meta: {
-                title: '测试功能',
-                show: true,
-            },
-            component: 'Tests',
-            path: baseUrl + '/dashboard/tests',
-        },
-        // Exception
-        {
-            name: 'exception',
-            parentId: 0,
-            id: 30000,
-            meta: {
-                icon: 'WarningOutlined',
-                title: '异常页',
-                show: true,
-            },
-            component: 'SecurityLayout',
-            redirect: '/exception',
-            path: baseUrl + '/exception',
-        },
-        {
-            name: '403',
-            parentId: 30000,
-            id: 30001,
-            meta: {
-                title: '403',
-                show: true,
-            },
-            component: '403',
-            path: baseUrl + '/exception/403',
-        },
-        {
-            name: '404',
-            parentId: 30000,
-            id: 30002,
-            meta: {
-                title: '404',
-                show: true,
-            },
-            component: '404',
-            path: baseUrl + '/exception/404',
-        },
-        {
-            name: '500',
-            parentId: 30000,
-            id: 30003,
-            meta: {
-                title: '500',
-                show: true,
-            },
-            component: '500',
-            path: baseUrl + '/exception/500',
-        },
-        // list
-        {
-            name: 'list',
-            parentId: 0,
-            id: 40000,
-            meta: {
-                title: '列表页',
-                show: true,
-                icon: 'TableOutlined',
-            },
-            component: 'SecurityLayout',
-            path: baseUrl + '/list',
-        },
-        {
-            name: 'searchList',
-            parentId: 40000,
-            id: 40001,
-            meta: {
-                title: '查询列表',
-                show: true,
-            },
-            component: 'searchList',
-            path: baseUrl + '/list/searchList',
-        },
-        // permission
-        {
-            name: 'permission',
-            parentId: 0,
-            id: 50000,
-            meta: {
-                title: '权限管理',
-                show: true,
-                icon: 'UserSwitchOutlined',
-            },
-            component: 'SecurityLayout',
-            path: baseUrl + '/permission',
-        },
-        {
-            name: 'role',
-            parentId: 50000,
-            id: 50001,
-            meta: {
-                title: '角色管理',
-                show: true,
-            },
-            component: 'role',
-            path: baseUrl + '/permission/role',
-        },
-    ];
     const permission = {
         Analysis: true,
     };

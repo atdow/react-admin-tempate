@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-06-02 16:50:33
  * @LastEditors: null
- * @LastEditTime: 2021-06-02 19:17:40
+ * @LastEditTime: 2021-06-03 18:10:35
  * @Description: file description
  */
 
@@ -13,12 +13,13 @@ import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
 
 import { Form, Row, Col, Input, Button, Switch, Popconfirm, message } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { EditOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 
 import STable from '@src/components/STable';
+import RoleModifyModal from './modules/roleModifyModal';
 
-import { queryRoleList } from '@src/services/api/permission';
+import { queryRoleList, changeRoleStatus } from '@src/services/api/permission';
 
 function mapStateToProps(state: RootState) {
     // const {
@@ -60,6 +61,7 @@ type SearchListProps = RouterProps &
 
 type State = {
     expand: boolean;
+    statusConfimText: string;
     columns: ColumnsType<any>;
     formValue: Object;
     tableDataSource: Function;
@@ -82,12 +84,15 @@ const rowSelection = {
 export default class SearchList extends React.Component<SearchListProps, State> {
     formRef: React.RefObject<any>;
     tableRef: React.RefObject<any>;
+    RoleModifyModalRef: React.RefObject<any>;
     constructor(props) {
         super(props);
         this.formRef = React.createRef();
         this.tableRef = React.createRef();
+        this.RoleModifyModalRef = React.createRef();
         this.state = {
             expand: false,
+            statusConfimText: '确认要"停用""超级管理员"角色吗?',
             columns: [
                 {
                     title: '角色编号',
@@ -114,12 +119,29 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                     dataIndex: 'status',
                     key: 'status',
                     render: (text, record) => (
-                        <Switch
-                            checked={text}
-                            onChange={value => {
-                                this.onStatusChange(value, record);
+                        <Popconfirm
+                            placement="top"
+                            title={(record => {
+                                // '确认要"停用""超级管理员"角色吗?'
+                                let text = '确认要';
+                                text += record.status === true ? '"停用"' : '"启用"';
+                                text += `"${record.roleName}"`;
+                                text += '角色吗?';
+                                return text;
+                            })(record)}
+                            onConfirm={e => {
+                                this.confirm(e, record);
                             }}
-                        />
+                            okText="确定"
+                            cancelText="取消"
+                        >
+                            <Switch
+                                checked={text}
+                                onChange={value => {
+                                    this.onStatusChange(value, record);
+                                }}
+                            />
+                        </Popconfirm>
                     ),
                 },
                 {
@@ -131,6 +153,14 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                     title: '操作',
                     dataIndex: 'opetation',
                     key: 'opetation',
+                    render: (text, record) => (
+                        <div>
+                            <a href="#!" onClick={e => this.handleMoify(e, record)}>
+                                <EditOutlined />
+                                修改
+                            </a>
+                        </div>
+                    ),
                 },
             ],
             formValue: {},
@@ -142,7 +172,9 @@ export default class SearchList extends React.Component<SearchListProps, State> 
             },
         };
     }
-    componentDidMount() {}
+    componentDidMount() {
+        // this.RoleModifyModalRef.current.show(2);
+    }
 
     onFinish(values: any) {
         this.setState({ formValue: values }); // 这个是没有必要的更新，只是为了维护数据，可以提升到外部变量
@@ -151,7 +183,25 @@ export default class SearchList extends React.Component<SearchListProps, State> 
     }
     onFinishFailed({ values, errorFields, outOfDate }) {}
     onStatusChange(checked, record) {
-        console.log('onStatusChange:');
+        //   console.log('onStatusChange:');
+    }
+    confirm(e, record) {
+        changeRoleStatus({ id: record.id })
+            .then(res => {
+                const { data } = res;
+                if (data.code === 200) {
+                    message.success('修改成功');
+                    this.tableRef.current.request();
+                }
+            })
+            .catch(err => {
+                message.error('修改失败');
+            })
+            .finally(() => {});
+    }
+    handleMoify(e, record) {
+        e.preventDefault();
+        this.RoleModifyModalRef.current.show(record.id);
     }
     render() {
         return (
@@ -243,6 +293,7 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                     className="margin-top-20"
                     rowSelection={rowSelection}
                 />
+                <RoleModifyModal ref={this.RoleModifyModalRef} />
             </div>
         );
     }
