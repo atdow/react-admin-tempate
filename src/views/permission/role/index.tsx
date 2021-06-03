@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-06-02 16:50:33
  * @LastEditors: null
- * @LastEditTime: 2021-06-03 18:28:03
+ * @LastEditTime: 2021-06-03 18:39:34
  * @Description: file description
  */
 
@@ -17,7 +17,7 @@ import { EditOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 
 import STable from '@src/components/STable';
-import RoleModifyModal from './modal/roleModifyModal'; // 问题
+import RoleModifyModal from './modules/roleModifyModal'; // 问题
 
 import { queryRoleList, changeRoleStatus } from '@src/services/api/permission';
 
