@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[3],{705:function(e,t,a){"use strict";a.r(t);a(485);var n=a(494),o=(a(442),a(443)),r=a(0),s=a.n(r);t.default=function(){return s.a.createElement(n.a,{status:"403",title:"403",style:{background:"none"},subTitle:"Sorry, you don't have access to this page.",extra:s.a.createElement(o.a,{type:"primary"},"Back to home")})}}}]);
