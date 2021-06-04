@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-06-02 17:11:35
  * @LastEditors: null
- * @LastEditTime: 2021-06-03 17:16:37
+ * @LastEditTime: 2021-06-04 11:40:15
  * @Description: file description
  */
 
@@ -33,6 +33,17 @@ export function changeRoleStatus(parameter) {
 }
 
 /**
+ * 获取菜单树
+ * @returns {*}
+ */
+export function getMenuTree() {
+    return axios({
+        url: '/pt/getMenuTree',
+        method: 'get',
+    });
+}
+
+/**
  * 获取角色权限信息
  * @returns {*}
  */
@@ -45,12 +56,13 @@ export function getRolePerssionInfo(parameter) {
 }
 
 /**
- * 获取菜单树
+ * 修改角色权限信息
  * @returns {*}
  */
-export function getMenuTree() {
+export function changeRolePerssionInfo(parameter) {
     return axios({
-        url: '/pt/getMenuTree',
-        method: 'get',
+        url: '/pt/changeRolePerssionInfo',
+        method: 'post',
+        data: parameter,
     });
 }

@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-06-02 17:37:24
  * @LastEditors: null
- * @LastEditTime: 2021-06-03 17:49:14
+ * @LastEditTime: 2021-06-04 16:39:33
  * @Description: file description
  */
 import Mock from 'mockjs2';
@@ -18,7 +18,7 @@ const roleListData = [
         roleName: '超级管理员',
         permissonCharacter: 'admin',
         displaySequence: 1,
-        status: true,
+        status: 0,
         createTime: '2020-11-20 19:29:43',
         menu,
         comment: '超级管理员',
@@ -30,12 +30,14 @@ const roleListData = [
         roleName: '普通角色',
         permissonCharacter: 'common',
         displaySequence: 2,
-        status: false,
+        status: 1,
         createTime: '2020-11-20 19:29:43',
         menu: menu.slice(0, 8),
         comment: '普通角色',
     },
 ];
+
+// 获取角色列表
 const roleList = options => {
     const parameters = JSON.parse(options.body);
     const { roleName, permissonCharacter, status, createdTime } = parameters;
@@ -59,22 +61,29 @@ const roleList = options => {
     });
 };
 
+// 切换取角色状态
 const changeRoleStatus = options => {
     const parameters = JSON.parse(options.body);
     const { id } = parameters;
     for (let i = 0; i < roleListData.length; i++) {
         if (roleListData[i].id === id) {
-            roleListData[i].status = !roleListData[i].status;
+            if (roleListData[i].status === 0) {
+                roleListData[i].status = 1;
+            } else {
+                roleListData[i].status = 0;
+            }
             break;
         }
     }
     return builder(true);
 };
 
+// 获取菜单树
 const menuTree = options => {
     return builder(menu);
 };
 
+// 获取角色权限信息
 const getRolePerssionInfo = options => {
     const parameters = getQueryParameters(options);
     const result = roleListData.filter(roleListDataItem => {
@@ -83,7 +92,35 @@ const getRolePerssionInfo = options => {
     return builder(result[0] || {});
 };
 
+// 修改角色权限信息
+const changeRolePerssionInfo = options => {
+    const parameters = JSON.parse(options.body);
+    // console.log('parameters:', parameters);
+    for (let i = 0; i < roleListData.length; i++) {
+        if (roleListData[i].id === parameters.id) {
+            // menuId转menu
+            const newMenu = [];
+            const parametersMenuId = parameters.menu || [];
+            parametersMenuId.forEach(parametersMenuIdItem => {
+                const filterMenu = menu.filter(menuItem => {
+                    return menuItem.id === parametersMenuIdItem;
+                });
+                newMenu.push(...filterMenu);
+            });
+            roleListData[i] = {
+                ...roleListData[i],
+                ...parameters,
+                menu: newMenu,
+            };
+            break;
+        }
+    }
+    // console.log('roleListData:', roleListData);
+    return builder(true);
+};
+
 Mock.mock(/\/pt\/roleList/, 'post', roleList);
 Mock.mock(/\/pt\/changeRoleStatus/, 'post', changeRoleStatus);
 Mock.mock(/\/pt\/getMenuTree/, 'get', menuTree);
 Mock.mock(/\/pt\/getRolePerssionInfo/, 'get', getRolePerssionInfo);
+Mock.mock(/\/pt\/changeRolePerssionInfo/, 'post', changeRolePerssionInfo);

@@ -2,7 +2,7 @@
  * @Author: atdow
  * @Date: 2021-06-02 16:50:33
  * @LastEditors: null
- * @LastEditTime: 2021-06-04 09:43:36
+ * @LastEditTime: 2021-06-04 16:53:01
  * @Description: file description
  */
 
@@ -12,13 +12,26 @@ import { RouteComponentProps } from 'react-router-dom';
 import { RootDispatch, RootState } from '@src/store';
 import { connect } from '@store/connect';
 
-import { Form, Row, Col, Input, Button, Switch, Popconfirm, message } from 'antd';
+import {
+    Form,
+    Row,
+    Col,
+    Input,
+    Button,
+    Switch,
+    Popconfirm,
+    message,
+    Select,
+    DatePicker,
+} from 'antd';
+const { Option } = Select;
+const { RangePicker } = DatePicker;
 import { EditOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 
 import STable from '@src/components/STable';
 // import RoleModifyModal from './modules/roleModifyModal'; // 问题
-import RoleModifyModal from '@src/views/permission/role/modules/RoleModifyModal'; // 问题
+import RoleModifyModal from '@src/views/permission/role/modules/RoleModifyModal'; // note github上这样才能找到路径
 
 import { queryRoleList, changeRoleStatus } from '@src/services/api/permission';
 
@@ -131,17 +144,12 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                                 return text;
                             })(record)}
                             onConfirm={e => {
-                                this.confirm(e, record);
+                                this.chageRoleStatus(e, record);
                             }}
                             okText="确定"
                             cancelText="取消"
                         >
-                            <Switch
-                                checked={text}
-                                onChange={value => {
-                                    this.onStatusChange(value, record);
-                                }}
-                            />
+                            <Switch checked={text === 0 ? true : false} />
                         </Popconfirm>
                     ),
                 },
@@ -183,10 +191,7 @@ export default class SearchList extends React.Component<SearchListProps, State> 
         // this.tableRef.current.request(); // 请求当前页，相当于刷新
     }
     onFinishFailed({ values, errorFields, outOfDate }) {}
-    onStatusChange(checked, record) {
-        //   console.log('onStatusChange:');
-    }
-    confirm(e, record) {
+    chageRoleStatus(e, record) {
         changeRoleStatus({ id: record.id })
             .then(res => {
                 const { data } = res;
@@ -203,6 +208,11 @@ export default class SearchList extends React.Component<SearchListProps, State> 
     handleMoify(e, record) {
         e.preventDefault();
         this.RoleModifyModalRef.current.show(record.id);
+    }
+    onRoleInfoChange(status) {
+        if (status === true) {
+            this.tableRef.current.request();
+        }
     }
     render() {
         return (
@@ -227,7 +237,7 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                                     },
                                 ]}
                             >
-                                <Input placeholder="placeholder" />
+                                <Input placeholder="请输入角色名称" />
                             </Form.Item>
                         </Col>
                         <Col span={5}>
@@ -241,7 +251,7 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                                     },
                                 ]}
                             >
-                                <Input placeholder="placeholder" />
+                                <Input placeholder="请输入权限字符" />
                             </Form.Item>
                         </Col>
                         <Col span={5}>
@@ -255,7 +265,10 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                                     },
                                 ]}
                             >
-                                <Input placeholder="placeholder" />
+                                <Select placeholder="请选择状态">
+                                    <Option value={0}>正常</Option>
+                                    <Option value={1}>停用</Option>
+                                </Select>
                             </Form.Item>
                         </Col>
                         <Col span={5}>
@@ -269,7 +282,8 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                                     },
                                 ]}
                             >
-                                <Input placeholder="placeholder" />
+                                <RangePicker showTime />
+                                {/* <Input placeholder="placeholder" /> */}
                             </Form.Item>
                         </Col>
                         <Col span={4} style={{ textAlign: 'right' }}>
@@ -294,7 +308,10 @@ export default class SearchList extends React.Component<SearchListProps, State> 
                     className="margin-top-20"
                     rowSelection={rowSelection}
                 />
-                <RoleModifyModal ref={this.RoleModifyModalRef} />
+                <RoleModifyModal
+                    ref={this.RoleModifyModalRef}
+                    onRoleInfoChange={this.onRoleInfoChange.bind(this)}
+                />
             </div>
         );
     }

@@ -2,67 +2,40 @@
  * @Author: atdow
  * @Date: 2021-06-03 11:36:31
  * @LastEditors: null
- * @LastEditTime: 2021-06-03 18:09:07
+ * @LastEditTime: 2021-06-04 16:45:16
  * @Description: file description
  */
 
 import React, { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
-import { Drawer, Form, Input, Radio, Tree, Button, Spin } from 'antd';
+import { Drawer, Form, Input, Radio, Tree, Button, Spin, Checkbox, Row, Col } from 'antd';
 // import { InternalFormType } from 'antd/es/form';
 const { TextArea } = Input;
 
-import { getMenuTree, getRolePerssionInfo } from '@src/services/api/permission';
+import {
+    getMenuTree,
+    getRolePerssionInfo,
+    changeRolePerssionInfo,
+} from '@src/services/api/permission';
 import { menuDataToTreeData } from '@utils/perssion';
 
 const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 24 },
 };
-const tailLayout = {
-    wrapperCol: { offset: 0, span: 24 },
-};
-
-const treeData2 = [
-    {
-        title: '0-0',
-        key: '0-0',
-        children: [
-            {
-                title: '0-0-0',
-                key: '0-0-0',
-                children: [
-                    { title: '0-0-0-0', key: '0-0-0-0' },
-                    { title: '0-0-0-1', key: '0-0-0-1' },
-                    { title: '0-0-0-2', key: '0-0-0-2' },
-                ],
-            },
-            {
-                title: '0-0-1',
-                key: '0-0-1',
-                children: [
-                    { title: '0-0-1-0', key: '0-0-1-0' },
-                    { title: '0-0-1-1', key: '0-0-1-1' },
-                    { title: '0-0-1-2', key: '0-0-1-2' },
-                ],
-            },
-            {
-                title: '0-0-2',
-                key: '0-0-2',
-            },
-        ],
-    },
-];
 
 type Props = {
+    onRoleInfoChange?: Function;
     [key: string]: any;
 };
 type roleModifyModalType = {
     formRef?: React.RefObject<any>;
 };
 
+let roleId;
+let originAllMenuData = [];
 const RoleModifyModal: React.FC<Props> = forwardRef(
-    ({ ...arg }, ref): JSX.Element => {
+    ({ onRoleInfoChange, ...arg }, ref): JSX.Element => {
         const [visible, setVisible] = useState<boolean>(false);
         const [loading, setLoading] = useState<boolean>(false);
         const formRef = useRef(null);
@@ -71,10 +44,14 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
         const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([]);
         const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
         const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
+        const [treeAllFold, setTreeAllFold] = useState<boolean>(false);
+        const [treeAllSelect, setTreeAllSelect] = useState<boolean>(false);
 
         useImperativeHandle(ref, () => ({
             show: id => {
+                roleId = id;
                 show(true);
+                clearState();
                 setLoading(true);
                 // 获取所有菜单树
                 getMenuTree()
@@ -84,7 +61,8 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
                             show(false);
                             return;
                         }
-                        const originData = data.data || {};
+                        const originData = data.data || [];
+                        originAllMenuData = [...originData];
                         let treeData = menuDataToTreeData(originData || []);
                         generateTreeData(treeData);
                         setTreeData(treeData);
@@ -104,12 +82,13 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
                                 formRef.current.setFieldsValue({
                                     roleName: originData.roleName,
                                     permissonCharacter: originData.permissonCharacter,
-                                    status: originData.status,
+                                    status: originData.status === 0 ? true : false,
                                     menuPerssion: checkedKeys,
                                     comment: originData.comment,
                                 });
                             })
                             .catch(err => {
+                                // console.log('err:', err);
                                 show(false);
                             })
                             .finally(() => {
@@ -117,6 +96,7 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
                             });
                     })
                     .catch(err => {
+                        // console.log('err:', err);
                         setLoading(false);
                         show(false);
                     })
@@ -125,6 +105,15 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
         }));
 
         useEffect(() => {}, []);
+        // 清空所有状态
+        function clearState() {
+            setExpandedKeys([]);
+            setCheckedKeys([]);
+            setSelectedKeys([]);
+            setTreeAllFold(false);
+            setTreeAllSelect(false);
+            formRef.current?.resetFields();
+        }
 
         function generateTreeData(tree: Array<any>) {
             tree.forEach(treeItem => {
@@ -157,32 +146,100 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
             return [];
         }
 
-        function show(status) {
+        const show = (status: boolean): void => {
             setVisible(status);
-        }
-        function onClose() {
+        };
+        const onClose = (): void => {
             setVisible(false);
-        }
-        function onFinish() {}
-        function onFinishFailed() {}
+        };
+        const onSureChange = (isSaveClose: boolean = false): void => {
+            formRef.current
+                .validateFields()
+                .then(values => {
+                    // console.log('values:', values);
+                    setLoading(true);
+                    delete values.menuPerssion;
+                    let allCheckedKeys = []; // 有效选中的key
+                    checkedKeys.forEach(checkedKeysItem => {
+                        // 当前checkedKeys对应menu
+                        let currentMenuItemArr = originAllMenuData.filter(originAllMenuDataItem => {
+                            return originAllMenuDataItem.id === checkedKeysItem;
+                        });
+                        let currentMenuItem = currentMenuItemArr[0];
+                        allCheckedKeys.push(checkedKeysItem);
+                        // 如果子级选中，父级必须选中，所以补充父级
+                        if (
+                            currentMenuItem &&
+                            currentMenuItem.parentId !== 0 &&
+                            allCheckedKeys.indexOf(currentMenuItem.parentId) === -1
+                        ) {
+                            allCheckedKeys.push(currentMenuItem.parentId);
+                        }
+                    });
+                    allCheckedKeys = Array.from(new Set(allCheckedKeys));
+                    // console.log('allCheckedKeys:', allCheckedKeys);
+                    changeRolePerssionInfo({
+                        id: roleId,
+                        ...values,
+                        status: values.status === true ? 0 : 1,
+                        menu: allCheckedKeys,
+                    })
+                        .then(res => {
+                            const data = res.data;
+                            if (data.code === 200 && onRoleInfoChange) {
+                                onRoleInfoChange(true);
+                                if (isSaveClose === true) {
+                                    onClose();
+                                }
+                            }
+                        })
+                        .catch(err => {
+                            // console.log('err:', err);
+                            onRoleInfoChange(false);
+                        })
+                        .finally(() => {
+                            setLoading(false);
+                        });
+                })
+                .catch(errorInfo => {});
+        };
 
-        const onExpand = (expandedKeysValue: React.Key[]) => {
-            console.log('onExpand', expandedKeysValue);
-            // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-            // or, you can remove all expanded children keys.
+        const onTreeExpand = (expandedKeysValue: React.Key[]) => {
             setExpandedKeys(expandedKeysValue);
             setAutoExpandParent(false);
         };
-
-        const onCheck = (checkedKeysValue: React.Key[]) => {
-            console.log('onCheck', checkedKeysValue);
+        const onTreeCheck = checkedKeysValue => {
             setCheckedKeys(checkedKeysValue);
         };
-
-        const onSelect = (selectedKeysValue: React.Key[], info: any) => {
-            console.log('onSelect', info);
+        const onTreeSelect = (selectedKeysValue: React.Key[], info: any) => {
             setSelectedKeys(selectedKeysValue);
         };
+        function onTreeAllFoldChange(e) {
+            if (e.target.checked === true) {
+                setTreeAllFold(true);
+                let expandedKeys = [];
+                originAllMenuData.forEach(originAllMenuDataItem => {
+                    expandedKeys.push(originAllMenuDataItem.id);
+                });
+                setExpandedKeys(expandedKeys);
+            } else {
+                setTreeAllFold(false);
+                setExpandedKeys([]);
+            }
+        }
+        function onTreeAllSelectChange(e) {
+            if (e.target.checked === true) {
+                setTreeAllSelect(true);
+                let checkedKeys = [];
+                originAllMenuData.forEach(originAllMenuDataItem => {
+                    checkedKeys.push(originAllMenuDataItem.id);
+                });
+                setCheckedKeys(checkedKeys);
+            } else {
+                setTreeAllSelect(false);
+                setCheckedKeys([]);
+            }
+        }
 
         return (
             <div>
@@ -194,6 +251,32 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
                     visible={visible}
                     key="right"
                     width={500}
+                    footer={
+                        <div style={{ textAlign: 'right' }}>
+                            <Button
+                                className="margin-right-10"
+                                onClick={() => setVisible(false)}
+                                loading={false}
+                            >
+                                取消
+                            </Button>
+                            <Button
+                                className="margin-right-10"
+                                type="primary"
+                                onClick={() => onSureChange(false)}
+                                loading={loading}
+                            >
+                                保存
+                            </Button>
+                            <Button
+                                type="primary"
+                                onClick={() => onSureChange(true)}
+                                loading={loading}
+                            >
+                                保存并关闭
+                            </Button>
+                        </div>
+                    }
                 >
                     <Spin spinning={loading}>
                         <Form
@@ -201,8 +284,6 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
                             {...layout}
                             name="basic"
                             initialValues={{ remember: true }}
-                            onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
                         >
                             <Form.Item
                                 label="角色名"
@@ -231,20 +312,44 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
                             <Form.Item
                                 label="菜单权限"
                                 name="menuPerssion"
-                                rules={[{ required: true, message: '选择菜单权限!' }]}
+                                rules={[{ required: false, message: '请选择菜单权限!' }]}
                             >
-                                <Tree
-                                    checkable
-                                    onExpand={onExpand}
-                                    expandedKeys={expandedKeys}
-                                    autoExpandParent={autoExpandParent}
-                                    checkStrictly={false}
-                                    onCheck={onCheck}
-                                    checkedKeys={checkedKeys}
-                                    onSelect={onSelect}
-                                    selectedKeys={selectedKeys}
-                                    treeData={treeData}
-                                />
+                                <Row>
+                                    <Col
+                                        span={24}
+                                        style={{ height: '32px' }}
+                                        className="flex-align-center"
+                                    >
+                                        <Checkbox
+                                            checked={treeAllFold}
+                                            onChange={onTreeAllFoldChange}
+                                        >
+                                            展开或折叠
+                                        </Checkbox>
+                                        <Checkbox
+                                            checked={treeAllSelect}
+                                            onChange={onTreeAllSelectChange}
+                                        >
+                                            全选或全不选
+                                        </Checkbox>
+                                    </Col>
+                                    <Col span={24}>
+                                        <div style={{ border: '1px solid #d9d9d9' }}>
+                                            <Tree
+                                                checkable
+                                                onExpand={onTreeExpand}
+                                                expandedKeys={expandedKeys}
+                                                autoExpandParent={autoExpandParent}
+                                                checkStrictly={false}
+                                                onCheck={onTreeCheck}
+                                                checkedKeys={checkedKeys}
+                                                onSelect={onTreeSelect}
+                                                selectedKeys={selectedKeys}
+                                                treeData={treeData}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
                             </Form.Item>
                             <Form.Item
                                 label="备注"
@@ -252,11 +357,6 @@ const RoleModifyModal: React.FC<Props> = forwardRef(
                                 rules={[{ required: false, message: '请输入备注!' }]}
                             >
                                 <TextArea rows={4} placeholder="请输入备注!" />
-                            </Form.Item>
-                            <Form.Item {...tailLayout}>
-                                <Button type="primary" htmlType="submit" loading={false}>
-                                    登录
-                                </Button>
                             </Form.Item>
                         </Form>
                     </Spin>
